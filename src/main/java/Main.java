@@ -17,13 +17,17 @@ public class Main {
         Protocol protocol = new iPizzaProtocol(
                 "public",
                 "private",
-                new Vendor("sender", "name", "account")
+                new Vendor("sender", "name", "account"),
+                "http://localhost/return",
+                "http://localhost/return"
         );
         Banklink seb = new Seb(protocol);
 
-        PaymentRequest paymentRequest = seb.preparePaymentRequest(new PaymentRequestParams(12.0, "Laheee"));
+        PaymentRequest paymentRequest = seb.preparePaymentRequest(new PaymentRequestParams(12.0, "Laheee", "Minu Vitunumber"));
 
+        String html = paymentRequest.createRequestHtml();
 
+        System.out.println(html);
 
 
 

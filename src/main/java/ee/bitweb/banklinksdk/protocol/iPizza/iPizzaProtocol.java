@@ -25,13 +25,19 @@ public class iPizzaProtocol extends Protocol {
 
     protected Vendor vendor;
 
+    protected String successUri;
+    protected String cancelUri;
 
-    public iPizzaProtocol(String publicKey, String privateKey, Vendor vendor) {
+
+    public iPizzaProtocol(String publicKey, String privateKey, Vendor vendor, String successUri, String cancelUri) {
         //TODO: Check parameters and throw IllegalArgumentException
 
         this.publicKey = publicKey;
         this.privateKey = privateKey;
         this.vendor = vendor;
+
+        this.successUri = successUri;
+        this.cancelUri = cancelUri;
     }
 
     public Map<FieldDefinition, String> preparePaymentRequest(PaymentRequestParams paymentRequestParams) {
@@ -45,8 +51,8 @@ public class iPizzaProtocol extends Protocol {
         requestData.put(Fields.CURR, paymentRequestParams.getCurrency());
         requestData.put(Fields.REF, paymentRequestParams.getReferenceNumber());
         requestData.put(Fields.MSG, paymentRequestParams.getMessage());
-        requestData.put(Fields.RETURN_URL, paymentRequestParams.getSuccessUri());
-        requestData.put(Fields.CANCEL_URL, paymentRequestParams.getCancelUri());
+        requestData.put(Fields.RETURN_URL, paymentRequestParams.getSuccessUri() == null ? successUri : paymentRequestParams.getSuccessUri());
+        requestData.put(Fields.CANCEL_URL, paymentRequestParams.getCancelUri() == null ? cancelUri : paymentRequestParams.getCancelUri());
         requestData.put(Fields.DATETIME, formatDate(new Date()));
 
         requestData.put(Fields.ENCODING, paymentRequestParams.getEncoding());
@@ -73,7 +79,7 @@ public class iPizzaProtocol extends Protocol {
 
     protected String getRequestSignature(String mac) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, InvalidKeySpecException {
         RSAPrivateKey privKey = loadPrivateRSAKeyFromFile();
-        Signature s = Signature.getInstance("SHA256withRSA");
+        Signature s = Signature.getInstance("SHA1withRSA");
         s.initSign(privKey);
         s.update(ByteBuffer.wrap(mac.getBytes()));
         byte[] signature = s.sign();
@@ -85,12 +91,14 @@ public class iPizzaProtocol extends Protocol {
         String data = "";
 
         for (FieldDefinition field : Services.getFields(service)) {
+            System.out.println(field.getName());
+            System.out.println(field.getLength());
+            System.out.println(requestData.get(field));
             data += padMacParameter(field.getLength(), requestData.get(field));
         }
 
         return data;
     }
-
 
     private String formatDate(Date date) {
         TimeZone tz = TimeZone.getTimeZone("UTC");

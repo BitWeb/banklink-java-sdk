@@ -14,13 +14,9 @@ public class PaymentRequestParams {
     protected String successUri;
     protected String cancelUri;
 
-    public PaymentRequestParams(Double amount, String message) {
+    public PaymentRequestParams(Double amount, String message, String referenceNumber) {
         this.amount = amount;
         this.message = message;
-    }
-
-    public PaymentRequestParams(Double amount, String message, String referenceNumber) {
-        this(amount, message);
         this.referenceNumber = referenceNumber;
     }
 

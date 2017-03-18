@@ -56,7 +56,7 @@ public abstract class Banklink {
 
 
 
-        return new PaymentRequest(requestData);
+        return new PaymentRequest(!protocol.isTestMode() ? requestUri : testRequestUri, requestData);
 
     }
 
