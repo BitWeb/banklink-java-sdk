@@ -51,14 +51,14 @@ public class iPizzaProtocol extends Protocol {
         requestData.put(Fields.VERSION, version);
 
         requestData.put(Fields.SND_ID, vendor.getSenderId());
-        requestData.put(Fields.STAMP, ""); //FIXME siia mingi jama
+        requestData.put(Fields.STAMP, paymentRequestParams.getTransactionId());
         requestData.put(Fields.AMOUNT, String.valueOf(paymentRequestParams.getAmount()));
         requestData.put(Fields.CURR, paymentRequestParams.getCurrency());
         requestData.put(Fields.REF, paymentRequestParams.getReferenceNumber());
         requestData.put(Fields.MSG, paymentRequestParams.getMessage());
         requestData.put(Fields.RETURN_URL, paymentRequestParams.getSuccessUri() == null ? successUri : paymentRequestParams.getSuccessUri());
         requestData.put(Fields.CANCEL_URL, paymentRequestParams.getCancelUri() == null ? cancelUri : paymentRequestParams.getCancelUri());
-        requestData.put(Fields.DATETIME, formatDate(new Date()));
+        requestData.put(Fields.DATETIME, /*formatDate(new Date())*/ "2017-03-18T21:00:00+0200");
 
         requestData.put(Fields.ENCODING, paymentRequestParams.getEncoding());
         requestData.put(Fields.LANG, paymentRequestParams.getLanguage());
@@ -66,6 +66,7 @@ public class iPizzaProtocol extends Protocol {
 
         try {
             requestData.put(Fields.MAC, getRequestSignature(getMac(requestData, Services.PAYMENT_REQUEST)));
+            //requestData.put(Fields.MAC, getMac(requestData, Services.PAYMENT_REQUEST));
         } catch (Exception e) {
             throw new BanklinkException(e);
         }

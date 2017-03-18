@@ -5,6 +5,7 @@ package ee.bitweb.banklinksdk.request;
  */
 public class PaymentRequestParams {
 
+    protected String transactionId;
     protected Double amount;
     protected String message;
     protected String referenceNumber;
@@ -14,22 +15,27 @@ public class PaymentRequestParams {
     protected String successUri;
     protected String cancelUri;
 
-    public PaymentRequestParams(Double amount, String message, String referenceNumber) {
+    public PaymentRequestParams(String transactionId, Double amount, String message, String referenceNumber) {
+        this.transactionId = transactionId;
         this.amount = amount;
         this.message = message;
         this.referenceNumber = referenceNumber;
     }
 
-    public PaymentRequestParams(Double amount, String message, String referenceNumber, String language, String currency) {
-        this(amount, message, referenceNumber);
+    public PaymentRequestParams(String transactionId, Double amount, String message, String referenceNumber, String language, String currency) {
+        this(transactionId, amount, message, referenceNumber);
         this.language = language;
         this.currency = currency;
     }
 
-    public PaymentRequestParams(Double amount, String message, String referenceNumber, String language, String currency, String successUri, String cancelUri) {
-        this(amount, message, referenceNumber, language, currency);
+    public PaymentRequestParams(String transactionId, Double amount, String message, String referenceNumber, String language, String currency, String successUri, String cancelUri) {
+        this(transactionId, amount, message, referenceNumber, language, currency);
         this.successUri = successUri;
         this.cancelUri = cancelUri;
+    }
+
+    public String getTransactionId() {
+        return transactionId;
     }
 
     public Double getAmount() {

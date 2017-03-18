@@ -28,8 +28,8 @@ public class PaymentRequest {
 
     private String renderHiddenValues() {
         String data = "";
-        for (FieldDefinition field : requestData.keySet()) {
-            data += "<input type=\"hidden\" name=\""+ field.getName() +"\" value=\"" + requestData.get(field) + "\"/>\n";
+        for (FieldDefinition field : this.requestData.keySet()) {
+            data += "<input type=\"hidden\" name=\""+ field.getName() +"\" value=\"" + this.requestData.get(field) + "\"/>\n";
         }
 
         return data;

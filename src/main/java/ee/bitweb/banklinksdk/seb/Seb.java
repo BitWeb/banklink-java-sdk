@@ -11,11 +11,11 @@ import java.util.Map;
  */
 public class Seb extends Banklink {
 
-    protected String requestUri = "https://www.seb.ee/cgi-bin/unet3.sh/un3min.r";
-    protected String testRequestUri = ""; //TODO: sebi specist võtta
 
     public Seb(Protocol protocol) {
         super(protocol);
+        super.requestUri = "https://www.seb.ee/cgi-bin/unet3.sh/un3min.r";
+        super.testRequestUri = "https://www.seb.ee/cgi-bin/dv.sh/ipank.r";
         super.fields = new SebFields();
     }
 

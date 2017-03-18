@@ -54,7 +54,7 @@ public abstract class Banklink {
 
         Map<FieldDefinition, String> requestData = protocol.preparePaymentRequest(paymentRequestParams);
 
-        requestData = prepareSpecialFields(requestData);
+        prepareSpecialFields(requestData);
 
 
 
