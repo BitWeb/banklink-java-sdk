@@ -1,4 +1,7 @@
 import ee.bitweb.banklinksdk.Banklink;
+import ee.bitweb.banklinksdk.protocol.FieldDefinition;
+import ee.bitweb.banklinksdk.protocol.iPizza.Fields;
+import ee.bitweb.banklinksdk.protocol.iPizza.Response;
 import ee.bitweb.banklinksdk.seb.Seb;
 import ee.bitweb.banklinksdk.protocol.Vendor;
 import ee.bitweb.banklinksdk.protocol.Protocol;
@@ -6,6 +9,9 @@ import ee.bitweb.banklinksdk.protocol.iPizza.PaymentRequest;
 import ee.bitweb.banklinksdk.protocol.iPizza.iPizzaProtocol;
 import ee.bitweb.banklinksdk.request.PaymentRequestParams;
 import ee.bitweb.banklinksdk.seb.SebFields;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by tobre on 18/03/2017.
@@ -53,8 +59,8 @@ public class Main {
                     "uid100010",
                     "TIIGER LEOPOLDÃµ",
                     "EE411010002050618003"),
-                    "http://localhost/banklink-return/seb",
-                    "http://localhost/banklink-return/seb"
+                    "http://requestb.in/rdogj8rd",
+                    "http://requestb.in/rdogj8rd"
             );
 
         protocol.setTestMode(true);
@@ -66,6 +72,28 @@ public class Main {
 
         System.out.println(html);
 
+
+        Response response = seb.handleResponse(new HashMap<String, String>() {{
+            put("VK_STAMP", "1");
+            put("VK_AUTO", "Y");
+            put("VK_T_NO", "10002");
+            put("VK_VERSION", "008");
+            put("VK_SND_ID", "EYP");
+            put("VK_AMOUNT", "0.01");
+            put("VK_T_DATETIME", "2017-03-18T23:13:20+0200");
+            put("VK_CURR", "EUR");
+            put("VK_SND_ACC", "EE171010123456789017");
+            put("VK_SERVICE", "1111");
+            put("VK_REC_ACC", "EE411010002050618003");
+            put("VK_MSG", "BitWeb test");
+            put("VK_SND_NAME", "Tõõger Leõpäöld");
+            put("VK_REC_ID", "uid100010");
+            put("VK_REF", "643519");
+            put("VK_MAC", "g+S+iTn9JUZ0n9AxU0wSaXa+ki5ouWN2k2KB5r2ZrOkSHEEFOYkOFko4422n0EoYjsexcAnP4LKP/X8KucisD2Icz7lwAVyjbEVW6sYGjVj6SDhBWOav0fDnv1pMExAb6f9RVZu+UHQe7z7ctZ/YPUN4EYH7UM9SVFZfZSIKg/0=");
+            put("VK_REC_NAME", "TIIGER LEOPOLDÃµ");
+            put("VK_LANG", "EST");
+            put("VK_ENCODING", "UTF-8");
+        }});
 
 
         seb.prepareAuthenticationRequest();

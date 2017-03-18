@@ -111,4 +111,11 @@ public enum Services {
 
         return fields;
     }
+
+    public static Services getByCode(String code) {
+        for(Services e : values()) {
+            if(e.code.equals(code)) return e;
+        }
+        return null;
+    }
 }

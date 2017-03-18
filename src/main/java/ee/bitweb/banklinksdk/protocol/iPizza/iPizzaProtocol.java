@@ -12,6 +12,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 
+import javax.swing.text.html.parser.Entity;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.security.*;
@@ -67,7 +68,7 @@ public class iPizzaProtocol extends Protocol {
 
 
         try {
-            requestData.put(Fields.MAC, getRequestSignature(getMac(requestData, Services.PAYMENT_REQUEST)));
+            requestData.put(Fields.MAC, getRequestSignature(getMac(requestData)));
         } catch (Exception e) {
             throw new BanklinkException(e);
         }
@@ -105,7 +106,9 @@ public class iPizzaProtocol extends Protocol {
         return new String(Base64.encodeBase64(signature));
     }
 
-    protected String getMac(Map<FieldDefinition, String> requestData, Services service) {
+    protected String getMac(Map<FieldDefinition, String> requestData) {
+        Services service = Services.getByCode(requestData.get(Fields.SERVICE));
+
         String data = "";
 
         for (FieldDefinition field : Services.getFields(service)) {
@@ -133,13 +136,25 @@ public class iPizzaProtocol extends Protocol {
     @Override
     public Response handleResponse(Map<String, String> responseParams) {
        // if (responseParams)
+        Map <FieldDefinition, String> fields = convertToFields(responseParams);
+        String mac = getMac(fields);
 
-
-        return handlePaymentResponse(responseParams);
+        return handlePaymentResponse(fields);
 
     }
 
-    protected PaymentResponse handlePaymentResponse(Map<String, String> responseParams) {
-        return new PaymentResponse();
+    private Map<FieldDefinition, String> convertToFields(Map<String, String> responseParams) {
+        Map<FieldDefinition, String> fields = new HashMap<>();
+
+        for (Map.Entry<String, String> responseParam : responseParams.entrySet()) {
+            //Convert to key to FieldDefinition object
+            //responseParam.getKey();
+        }
+
+        return fields;
+    }
+
+    protected PaymentResponse handlePaymentResponse(Map<FieldDefinition, String> responseParams) {
+        return new PaymentResponse(null);
     }
 }
