@@ -54,6 +54,8 @@ public abstract class Banklink {
 
         requestData = prepareSpecialFields(requestData);
 
+
+
         return new PaymentRequest(requestData);
 
     }

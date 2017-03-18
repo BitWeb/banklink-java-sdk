@@ -20,5 +20,5 @@ public abstract class Protocol {
         isTestMode = testMode;
     }
 
-    abstract public Map<FieldDefinition, Object> preparePaymentRequest(PaymentRequestParams paymentRequestParams);
+    abstract public Map<FieldDefinition, String> preparePaymentRequest(PaymentRequestParams paymentRequestParams);
 }
