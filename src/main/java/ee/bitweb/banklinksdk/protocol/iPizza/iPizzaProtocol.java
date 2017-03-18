@@ -91,9 +91,6 @@ public class iPizzaProtocol extends Protocol {
         String data = "";
 
         for (FieldDefinition field : Services.getFields(service)) {
-            System.out.println(field.getName());
-            System.out.println(field.getLength());
-            System.out.println(requestData.get(field));
             data += padMacParameter(field.getLength(), requestData.get(field));
         }
 
