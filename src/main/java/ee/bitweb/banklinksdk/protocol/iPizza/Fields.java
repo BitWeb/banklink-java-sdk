@@ -23,7 +23,7 @@ public enum Fields {
     /**
      * Maksmisele kuuluv summa
      */
-    AMOUNT("VK_AMOUNT", 12)
+    AMOUNT("VK_AMOUNT", 12),
 
     /**
      * Valuuta nimi
@@ -98,17 +98,17 @@ public enum Fields {
     /**
      * Sõnumi koostaja (partneri) ID
      */
-    SND_ID("VK_SND_ID", 0),
+    SND_ID("VK_SND_ID", null),
 
     /**
      * Saaja nimi
      */
-    NAME("VK_NAME", 0),
+    NAME("VK_NAME", null),
 
     /**
      * Maksekorralduse seletus
      */
-    VK_MSG("VK_MSG"),
+    VK_MSG("VK_MSG", null),
 
     /**
      * Kontrollkood e. allkiri
@@ -118,50 +118,50 @@ public enum Fields {
     /**
      * URL, kuhu vastatakse edukal tehingu sooritamisel
      */
-    RETURN_URL("VK_RETURN", 0)
+    RETURN_URL("VK_RETURN", null),
 
     /**
      * URL, kuhu vastatakse ebaõnnestunud tehingu puhul
      */
-    CANCEL_URL("VK_CANCEL", 255)
+    CANCEL_URL("VK_CANCEL", 255),
 
     /**
      * Saaja nimi
      */
-    REC_NAME("VK_REC_NAME", 0)
+    REC_NAME("VK_REC_NAME", null),
 
     /**
      * Maksja nimi
      */
-    SND_NAME("VK_SND_NAME", 0)
+    SND_NAME("VK_SND_NAME", null),
 
     /**
      * Päringu vastuvõtja ID (Kaupluse ID)
      */
-    REC_ID("VK_REC_ID", 0)
+    REC_ID("VK_REC_ID", null),
 
     /**
      *
      * Päringu saatja poolt genereeritud juhuslik nonss (kasutatakse värskuse tagamiseks)
      */
-    NONCE("VK_NONCE", 50)
+    NONCE("VK_NONCE", 50),
 
-    DATETIME("VK_DATETIME", 24)
+    DATETIME("VK_DATETIME", 24),
 
-    T_DATETIME("VK_T_DATETIME", 24)
+    T_DATETIME("VK_T_DATETIME", 24),
 
-    RID("VK_RID", 30)
+    RID("VK_RID", 30),
 
-    USER_NAME("VK_USER_NAME", 140)
+    USER_NAME("VK_USER_NAME", 140),
 
-    USER_ID("VK_USER_ID", 20)
+    USER_ID("VK_USER_ID", 20),
 
     /*
      * Isikukoodi riik (kahetäheline kood vastavalt ISO 3166-1 standardile)
      */
-    COUNTRY("VK_COUNTRY", 2)
+    COUNTRY("VK_COUNTRY", 2),
 
-    OTHER("VK_OTHER", 150)
+    OTHER("VK_OTHER", 150),
 
     /*
      * Autentimisvahendi identifikaatori kood:
@@ -171,12 +171,12 @@ public enum Fields {
      * 6- PIN-kalkulaator;
      * 7- korduvkasutusega kaart
      */
-    TOKEN("VK_TOKEN", 2)
+    TOKEN("VK_TOKEN", 2),
 
     /*
      * Sõnumi kodeering. UTF-8 (vaikeväärtus), ISO-8859-1 või WINDOWS-1257
      */
-    ENCODING("VK_ENCODING", 12)
+    ENCODING("VK_ENCODING", 12);
 
     public String name;
     public int length;
