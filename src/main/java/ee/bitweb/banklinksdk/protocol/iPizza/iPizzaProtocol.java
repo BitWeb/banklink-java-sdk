@@ -5,7 +5,11 @@ import ee.bitweb.banklinksdk.protocol.FieldDefinition;
 import ee.bitweb.banklinksdk.protocol.Protocol;
 import ee.bitweb.banklinksdk.protocol.Vendor;
 import ee.bitweb.banklinksdk.request.PaymentRequestParams;
+import ee.bitweb.banklinksdk.response.ResponseParams;
+import org.apache.commons.codec.binary.Base64;
 
+
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.security.*;
 import java.security.interfaces.RSAPrivateKey;
@@ -40,6 +44,7 @@ public class iPizzaProtocol extends Protocol {
         this.cancelUri = cancelUri;
     }
 
+    @Override
     public Map<FieldDefinition, String> preparePaymentRequest(PaymentRequestParams paymentRequestParams) {
         Map<FieldDefinition, String> requestData = new HashMap<>();
         requestData.put(Fields.SERVICE, Services.PAYMENT_REQUEST.code);
@@ -61,7 +66,7 @@ public class iPizzaProtocol extends Protocol {
 
         try {
             requestData.put(Fields.MAC, getRequestSignature(getMac(requestData, Services.PAYMENT_REQUEST)));
-        } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException | InvalidKeySpecException e) {
+        } catch (Exception e) {
             throw new BanklinkException(e);
         }
 
@@ -70,21 +75,32 @@ public class iPizzaProtocol extends Protocol {
     }
 
     //FIXME: Encapuslate to Helper
-    private RSAPrivateKey loadPrivateRSAKeyFromFile() throws NoSuchAlgorithmException, InvalidKeySpecException {
-        KeyFactory kFact = KeyFactory.getInstance("RSA");
-        KeySpec ks = new PKCS8EncodedKeySpec(privateKey.getBytes());
 
-        return (RSAPrivateKey)kFact.generatePrivate(ks);
+
+    public RSAPrivateKey getPrivateKeyFromString() throws IOException, GeneralSecurityException {
+        String privateKeyPEM = privateKey;
+        privateKeyPEM = privateKeyPEM.replace("-----BEGIN PRIVATE KEY-----", "");
+        privateKeyPEM = privateKeyPEM.replace("-----END PRIVATE KEY-----", "");
+        byte[] encoded = Base64.decodeBase64(privateKeyPEM);
+
+
+        KeyFactory kf = KeyFactory.getInstance("RSA");
+        PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(encoded);
+        RSAPrivateKey privKey = (RSAPrivateKey) kf.generatePrivate(keySpec);
+        return privKey;
     }
 
-    protected String getRequestSignature(String mac) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, InvalidKeySpecException {
-        RSAPrivateKey privKey = loadPrivateRSAKeyFromFile();
+
+
+
+    protected String getRequestSignature(String mac) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, InvalidKeySpecException, GeneralSecurityException, IOException {
+        RSAPrivateKey privKey = getPrivateKeyFromString();
         Signature s = Signature.getInstance("SHA1withRSA");
         s.initSign(privKey);
         s.update(ByteBuffer.wrap(mac.getBytes()));
         byte[] signature = s.sign();
 
-        return new String(Base64.getEncoder().encode(signature));
+        return new String(Base64.encodeBase64(signature));
     }
 
     protected String getMac(Map<FieldDefinition, String> requestData, Services service) {
@@ -114,5 +130,18 @@ public class iPizzaProtocol extends Protocol {
         }
 
         return prefix + value;
+    }
+
+    @Override
+    public Response handleResponse(Map<String, String> responseParams) {
+       // if (responseParams)
+
+
+        return handlePaymentResponse(responseParams);
+
+    }
+
+    protected PaymentResponse handlePaymentResponse(Map<String, String> responseParams) {
+        return new PaymentResponse();
     }
 }

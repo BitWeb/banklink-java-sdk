@@ -1,5 +1,6 @@
 package ee.bitweb.banklinksdk.protocol;
 
+import ee.bitweb.banklinksdk.protocol.iPizza.Response;
 import ee.bitweb.banklinksdk.request.PaymentRequestParams;
 
 import java.util.Map;
@@ -21,4 +22,7 @@ public abstract class Protocol {
     }
 
     abstract public Map<FieldDefinition, String> preparePaymentRequest(PaymentRequestParams paymentRequestParams);
+
+
+    public abstract Response handleResponse(Map<String, String> responseParams);
 }

@@ -12,20 +12,22 @@ import ee.bitweb.banklinksdk.seb.SebFields;
  */
 public class Main {
 
-    protected static String privateKey = "-----BEGIN RSA PRIVATE KEY-----" +
-            "MIICXQIBAAKBgQDfsdR/02PcAvH1QzP3AhG1NJFggWbHL6W0Ji4XlGrJtZG4S0xX" +
-            "bZL/37q1+IU4a3hqRUqBu+Z9dQ1Cn2JeF0vJOQW8QV1fslY3rajMUIQjKa/keUoe" +
-            "EBkQBVHGzes35tOheeuSGU7TBSrFCY06x0AWIWSzuxiqZcyomwfFCobGAwIDAQAB" +
-            "AoGAV9jVU9GnULqTXLckjCdy3s+jG9wVibmrgGDSDw6JFWfJry9a7qaoaPXqtBXB" +
-            "85M4+br2dJZfAPvb1kMTdVH+v24qXzi6TYEeRTNXqVC9Z24+9p34rx/jcgKNYuw3" +
-            "aUBI6uIe/L0LDK0LBDjn/IYtZ7imu/fNhOuOBXFJK7u230ECQQD23G07+6+GTgET" +
-            "hPOuqtNQMRlfu0gCsjHRWDicrmibbiR5AP7UbX8b6PoNwCevf3LqLbGQZWJG5if0" +
-            "UPPUEsChAkEA5/nZSkH8Sloht740Hl2FzenP3/uprJMFz6NISlcBQA4xm0+0mbLK" +
-            "JcGdvxgHdqAfYXG/d+b832abZSEEybBwIwJBAOdxmmhWfCYrFA8840qrlhrlLaj3" +
-            "aXg9oT9ouwsK6cBv73oTWNfJIRcFwwsJUSvVDeRImuWKaC2Ys3T4QOJgAoECQAgg" +
-            "gLRRS31vWu8NAtZtgFqObnHyZydcnz9/APFZyvlrheFjEXixAtP/zH79YIWPZooL" +
-            "aiHRPdq1xYvtdDV8sPECQQDcF3qv9UTxeR7fHv7BM8tE3gRSfb+81s5ndq7n+dDQ" +
-            "LLvyUf0n8ojvgGvCZIWISTt544s2j/CB+/EI5QhmBF65" + "-----END RSA PRIVATE KEY-----";
+    protected static String privateKey ="-----BEGIN PRIVATE KEY-----\n" +
+            "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBANhCJFjd/O/Ztnhv\n" +
+            "3sLvzSDbPoUf6xRbePiwgJZcGoyC9M2XolwhHDOg1wHIpYiMKpEFOI5VzsFCHRHa\n" +
+            "1GJvcOQa17wxgAjuPpWOw6ErEEvaZU4AuGHqlWe/xzAVkjd3o3dnoHu/zMcak7/O\n" +
+            "ZF9Uyx2V9HgVSeYZEnp7S4MC3XR1AgMBAAECgYBeZ1k4lgdxqMeYAbXrwQT539uF\n" +
+            "/63+YAQKA/rOKHzKc+xrx1LwBuApxX+2XqGsXwvB7NaIg/rSsIrCHZXzNpS/oUIe\n" +
+            "KRDUeDJHVH0LLnIodG1+QfLTUFhQfF4hoMlPu0e0HAdPyWm08z3JxdxN8WoqXgvm\n" +
+            "wXj4NRxs2tji5yoHTQJBAPUsmJ5ZQeWNvVvtq5EM0iWspUKZccGc0P4s8X8r29hd\n" +
+            "+PDNseUny1r1M1Sn8A5QI0c8mS7C1dD9ZJIWby/A7YMCQQDhzq/BlX06iy08WCsG\n" +
+            "8kKI65GG6NWy1v1i6m38rb4FRLrbsWwUPWU4x98dmG3BslMUvYA72fjKr2OkTunJ\n" +
+            "ECynAkEAtvQte1St+OfZW2Uy9w2zL8vyko1AtzMXPeU53SVUa9RMNR2513/nnxuE\n" +
+            "z3J2j6e7e6g7wwo/VjIQv3cgR2lXkwJARIcGPbiRTaAJNWQIgs4otQbQnmGw4Npw\n" +
+            "AYHlqSZNIaovDxc0FpxfSLEXnBKzVHI61nOAJCnNYC2EDsxIFNXMxwJBAKTWkmwS\n" +
+            "loNy+cYExJCsQN9kUdJwv8YRlGNSIPtzXf9IanU61SJfX0IK8m4SagCivv6OQxtu\n" +
+            "1Tp9zl6uDd1gcyw=\n" +
+            "-----END PRIVATE KEY-----";
 
     protected static String publicKey =
             "MIICTTCCAbYCCQDyGqVt0TTWTDANBgkqhkiG9w0BAQsFADBrMQswCQYDVQQGEwJF\n" +

@@ -4,6 +4,8 @@ import ee.bitweb.banklinksdk.protocol.FieldDefinition;
 import ee.bitweb.banklinksdk.protocol.Protocol;
 import ee.bitweb.banklinksdk.protocol.iPizza.Fields;
 import ee.bitweb.banklinksdk.protocol.iPizza.PaymentRequest;
+import ee.bitweb.banklinksdk.protocol.iPizza.Response;
+import ee.bitweb.banklinksdk.response.ResponseParams;
 import ee.bitweb.banklinksdk.request.PaymentRequestParams;
 
 import java.util.Map;
@@ -62,6 +64,10 @@ public abstract class Banklink {
 
     public void prepareAuthenticationRequest() {
 
+    }
+
+    public Response handleResponse(Map<String, String> responseParams) {
+        return protocol.handleResponse(responseParams);
     }
 
     abstract protected Map<FieldDefinition, String> prepareSpecialFields(Map<FieldDefinition, String> requestData);
