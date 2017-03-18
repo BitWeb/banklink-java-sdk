@@ -45,13 +45,22 @@ public class iPizzaProtocol extends Protocol {
         requestData.put(Fields.ENCODING, paymentRequestParams.getEncoding());
         requestData.put(Fields.LANG, paymentRequestParams.getLanguage());*/
 
-        //requestData.put(Field2.MAC, getMac(Services.PAYMENT_REQUEST, requestData));
+
+        //requestData.put(Field2.MAC, getRequestSignature(requestData));
 
         return requestData;
 
     }
 
-    protected String getMac(Services service, Map<Fields, Object> requestData) {
+    protected String getRequestSignature(Map<Fields, Object> requestData) {
+        String mac = getMac(requestData);
+
+        //TODO: signing with private key
+
+        return "";
+    }
+
+    protected String getMac(Map<Fields, Object> requestData) {
         //tsikkel üle Services.getFields(service);
 
         return "";
