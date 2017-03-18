@@ -10,7 +10,6 @@ public class SebFields extends Fields {
 
     public SebFields() {
 
-        //super.MSG = new FieldDefinition("VK_MSG", 10);
         super.SND_ID.setLength(15);
         super.REC_ID.setLength(15);
         super.STAMP.setLength(20);
