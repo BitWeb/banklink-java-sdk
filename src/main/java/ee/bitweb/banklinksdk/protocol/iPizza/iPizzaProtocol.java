@@ -13,10 +13,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TimeZone;
+import java.util.*;
 
 /**
  * Created by tobre on 18/03/2017.
@@ -55,6 +52,7 @@ public class iPizzaProtocol extends Protocol {
         requestData.put(Fields.ENCODING, paymentRequestParams.getEncoding());
         requestData.put(Fields.LANG, paymentRequestParams.getLanguage());
 
+
         try {
             requestData.put(Fields.MAC, getRequestSignature(getMac(requestData, Services.PAYMENT_REQUEST)));
         } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException | InvalidKeySpecException e) {
@@ -80,7 +78,7 @@ public class iPizzaProtocol extends Protocol {
         s.update(ByteBuffer.wrap(mac.getBytes()));
         byte[] signature = s.sign();
 
-        return new String(signature);
+        return new String(Base64.getEncoder().encode(signature));
     }
 
     protected String getMac(Map<FieldDefinition, String> requestData, Services service) {
