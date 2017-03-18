@@ -15,7 +15,7 @@ public class Seb extends Banklink {
     public Seb(Protocol protocol) {
         super(protocol);
         super.requestUri = "https://www.seb.ee/cgi-bin/unet3.sh/un3min.r";
-        super.testRequestUri = "https://www.seb.ee/cgi-bin/dv.sh/ipank.r";
+        super.testRequestUri = "http://localhost:8888/banklink/seb-common";
         super.fields = new SebFields();
     }
 

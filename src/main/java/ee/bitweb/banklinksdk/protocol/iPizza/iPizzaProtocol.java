@@ -7,6 +7,9 @@ import ee.bitweb.banklinksdk.protocol.Vendor;
 import ee.bitweb.banklinksdk.request.PaymentRequestParams;
 import ee.bitweb.banklinksdk.response.ResponseParams;
 import org.apache.commons.codec.binary.Base64;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 
 import java.io.IOException;
@@ -16,7 +19,6 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.security.spec.PKCS8EncodedKeySpec;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -58,7 +60,7 @@ public class iPizzaProtocol extends Protocol {
         requestData.put(Fields.MSG, paymentRequestParams.getMessage());
         requestData.put(Fields.RETURN_URL, paymentRequestParams.getSuccessUri() == null ? successUri : paymentRequestParams.getSuccessUri());
         requestData.put(Fields.CANCEL_URL, paymentRequestParams.getCancelUri() == null ? cancelUri : paymentRequestParams.getCancelUri());
-        requestData.put(Fields.DATETIME, /*formatDate(new Date())*/ "2017-03-18T21:00:00+0200");
+        requestData.put(Fields.DATETIME, formatDate(new DateTime()));
 
         requestData.put(Fields.ENCODING, paymentRequestParams.getEncoding());
         requestData.put(Fields.LANG, paymentRequestParams.getLanguage());
@@ -66,7 +68,6 @@ public class iPizzaProtocol extends Protocol {
 
         try {
             requestData.put(Fields.MAC, getRequestSignature(getMac(requestData, Services.PAYMENT_REQUEST)));
-            //requestData.put(Fields.MAC, getMac(requestData, Services.PAYMENT_REQUEST));
         } catch (Exception e) {
             throw new BanklinkException(e);
         }
@@ -108,29 +109,25 @@ public class iPizzaProtocol extends Protocol {
         String data = "";
 
         for (FieldDefinition field : Services.getFields(service)) {
-            data += padMacParameter(field.getLength(), requestData.get(field));
+            data += padMacParameter(requestData.get(field));
         }
 
         return data;
     }
 
-    private String formatDate(Date date) {
-        TimeZone tz = TimeZone.getTimeZone("UTC");
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
-        formatter.setTimeZone(tz);
+    private String formatDate(DateTime date) {
+        DateTimeFormatter df = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ssZ");
 
-        return formatter.format(date);
+        return date.toString(df);
     }
 
-    private String padMacParameter(int length, String value) {
-        String prefix = "";
-        int prefixLen = length - value.length();
-
-        for (int i = 0; i < prefixLen; i++) {
-            prefix += "0";
+    private String padMacParameter(String value) {
+        String length = String.valueOf(value.length());
+        while (length.length() < 3) {
+            length = "0" + length;
         }
 
-        return prefix + value;
+        return length + value;
     }
 
     @Override

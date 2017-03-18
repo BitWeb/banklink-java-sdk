@@ -13,20 +13,20 @@ import ee.bitweb.banklinksdk.seb.SebFields;
 public class Main {
 
     protected static String privateKey ="-----BEGIN PRIVATE KEY-----\n" +
-            "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAL4BE6VeJG+LVPtD\n" +
-            "18CHQvDvezMCfbqap8oOp3oF2mWre/6BVYLe/T5uC181qRET9RVg7EQDTPS+KpGk\n" +
-            "rM+43Lw6y1Mx7x8UqzX01byUFiKTo3MngGT4HpWai86bScktAnK1cqInK4c/0Oo8\n" +
-            "5WY/xL5rPNftSrOi/WfGj1+8fvLZAgMBAAECgYAWFsP07qvnt9gKWgnEHTWAEydM\n" +
-            "d9asEfy9tdRskC+isDv7C4gobcodLuftiqx8CsjsUldFVOjmbxE921on0AMBP2uM\n" +
-            "CLcDXtNoS57ImX4H+GMdiGx3wx4WFNvZ+HStjcXp2IvxT9gNuIAh6Cco7TNxzrKc\n" +
-            "muxBm/NvoOVj8Is97QJBAPcpcnPDVl8nW2xzfvRv9kLVitFRHDjVDQjyWNgnwQnD\n" +
-            "+eBXGucIix3jdtGc5Wn2C4muNNBGSEMLcacnZjT7jYsCQQDEzGaHtBjici0FNLR9\n" +
-            "7UoJq3hUPGHLFgSFkqUYOHFbvm81E6uuKkHVl8GyrnGRjYwz1HtYqYvtKlK2tQ8i\n" +
-            "8RWrAkEA5cDghJ3rVy6lvK2sMRs2xy/sB+GnI2lg4ZUuY1ipCCPlztYJywPVFiaR\n" +
-            "GA8J7zLpzMVkkMsUd0ZXEvP7/XptOwJAL0k5vZOdgxOSE7UlRTi12Hr176+Og+Cn\n" +
-            "d3zT5Gzzd+rbB7LRRojqxqqvJQLbUPDk5jNA6/3ZHERWGYaJu4iX/wJAKJivPCVk\n" +
-            "kOWwqtY9lPQTyvM2YtmSE0fNgk/1LvH4UqSbeAV5cQGDMaf1Q53rEgCnSnsDVdUE\n" +
-            "3xfMMxrT2BI6Sw==\n" +
+            "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBALvdyY/hPEU7VOcv\n" +
+            "swtPVWsQntCbQAJMsQWJGL1EC0EJ3G5MpYa9MgcueUdGJ2Cj7+k7BgkInVtx98nH\n" +
+            "0cx43sAqDuRAEIzoxAElma3f1BLY/LUk7bgMipwB49Tkicz2gfHTXy1xOyldFZcQ\n" +
+            "TIWOPRvYhUhUsYAiM2DCuZfzete3AgMBAAECgYBbTw/Bc5qkl5LLjr5598QvdnOK\n" +
+            "Nnrk4zuC0kCI9QJ3SQCvR2eIVnpzTR47CxjmeqeHd12WlG5O3NSvaQRKWlEAxgHC\n" +
+            "OmEqZRGTqnO/1uCpiZEWZsMBsb2MC+Jt1EluLpO8o57j65Ytr6VzG/3u9nA7Z+b8\n" +
+            "mPmt9IL4SoyKeme5OQJBANxrm2bqJ/PaXAMWC2suEGnFRX4KyZxxcb9aiiVdpOlL\n" +
+            "c6pMZneMv2H92WduTjm0fee86bGQK/I3/hU3wpjjQW0CQQDaMPUeVi8G7oJwb9RL\n" +
+            "rBcSR9b5ysK+QWIvc+ySipgy3+CPxdwNZSOilL/DAwR+Y2xgNBGD549eqTezPzL3\n" +
+            "5aszAkEAveGxQOoMuuRsCXiPI6jOGOAJanhOkAembqrHgUL3ksYeASHJz8kfAYKW\n" +
+            "K6T5nHphUCYMx5skUIhtyMd9SwnSzQJBAJFqm5LSYZk/EJQbE+QzF1VJp87nAY+H\n" +
+            "SAbUPdEUqYcOij2H4rbSt0M92+f+dNo/LRWY3iuJApZWNRczgaaR3N0CQGD0TRzA\n" +
+            "IE576xBHfVnaCOO9cbjYRSj5c7SjeStBK1cN1ggbJCJjMH5JZIpzNc5mV5p+yotr\n" +
+            "SeIymXiA/fBTGzc=\n" +
             "-----END PRIVATE KEY-----";
 
     protected static String publicKey =
@@ -47,17 +47,20 @@ public class Main {
     public static void main(String args[]) {
 
         Protocol protocol = new iPizzaProtocol(
-                publicKey,
-                privateKey,
-                new Vendor("testvpos", "TIIGER LEOPOLDÃµ", "EE411010002050618003"),
-                "http://localhost/return",
-                "http://localhost/return"
-        );
+            publicKey,
+            privateKey,
+            new Vendor(
+                    "uid100010",
+                    "TIIGER LEOPOLDÃµ",
+                    "EE411010002050618003"),
+                    "http://localhost/banklink-return/seb",
+                    "http://localhost/banklink-return/seb"
+            );
 
         protocol.setTestMode(true);
         Banklink seb = new Seb(protocol);
 
-        PaymentRequest paymentRequest = seb.preparePaymentRequest(new PaymentRequestParams("Super ID", 12.0, "Laheee", "Minu Vitunumber"));
+        PaymentRequest paymentRequest = seb.preparePaymentRequest(new PaymentRequestParams("1", 0.01, "BitWeb test", "643519"));
 
         String html = paymentRequest.createRequestHtml();
 
