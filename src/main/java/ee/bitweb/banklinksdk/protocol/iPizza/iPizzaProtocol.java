@@ -1,10 +1,17 @@
 package ee.bitweb.banklinksdk.protocol.iPizza;
 
+import ee.bitweb.banklinksdk.exception.BanklinkException;
 import ee.bitweb.banklinksdk.protocol.FieldDefinition;
 import ee.bitweb.banklinksdk.protocol.Protocol;
 import ee.bitweb.banklinksdk.protocol.Vendor;
 import ee.bitweb.banklinksdk.request.PaymentRequestParams;
 
+import java.nio.ByteBuffer;
+import java.security.*;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -48,19 +55,32 @@ public class iPizzaProtocol extends Protocol {
         requestData.put(Fields.ENCODING, paymentRequestParams.getEncoding());
         requestData.put(Fields.LANG, paymentRequestParams.getLanguage());
 
-        requestData.put(Fields.MAC, getRequestSignature(getMac(requestData, Services.PAYMENT_REQUEST)));
+        try {
+            requestData.put(Fields.MAC, getRequestSignature(getMac(requestData, Services.PAYMENT_REQUEST)));
+        } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException | InvalidKeySpecException e) {
+            throw new BanklinkException(e);
+        }
 
         return requestData;
 
     }
 
+    //FIXME: Encapuslate to Helper
+    private RSAPrivateKey loadPrivateRSAKeyFromFile() throws NoSuchAlgorithmException, InvalidKeySpecException {
+        KeyFactory kFact = KeyFactory.getInstance("RSA");
+        KeySpec ks = new PKCS8EncodedKeySpec(privateKey.getBytes());
 
-    protected String getRequestSignature(String mac) {
+        return (RSAPrivateKey)kFact.generatePrivate(ks);
+    }
 
-        //TODO: signing with private key
+    protected String getRequestSignature(String mac) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, InvalidKeySpecException {
+        RSAPrivateKey privKey = loadPrivateRSAKeyFromFile();
+        Signature s = Signature.getInstance("SHA256withRSA");
+        s.initSign(privKey);
+        s.update(ByteBuffer.wrap(mac.getBytes()));
+        byte[] signature = s.sign();
 
-
-        return mac;
+        return new String(signature);
     }
 
     protected String getMac(Map<FieldDefinition, String> requestData, Services service) {
