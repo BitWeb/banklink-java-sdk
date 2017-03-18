@@ -1,5 +1,7 @@
 package ee.bitweb.banklinksdk.protocol.iPizza;
 
+import ee.bitweb.banklinksdk.protocol.FieldDefinition;
+
 import java.util.Map;
 
 /**
@@ -7,5 +9,9 @@ import java.util.Map;
  */
 public class PaymentRequest {
 
-    protected Map<String, Object> data;
+    protected Map<FieldDefinition, Object> requestData;
+
+    public PaymentRequest(Map<FieldDefinition, Object> requestData) {
+        this.requestData = requestData;
+    }
 }

@@ -1,8 +1,12 @@
 package ee.bitweb.banklinksdk;
 
+import ee.bitweb.banklinksdk.protocol.FieldDefinition;
 import ee.bitweb.banklinksdk.protocol.Protocol;
+import ee.bitweb.banklinksdk.protocol.iPizza.Fields;
+import ee.bitweb.banklinksdk.protocol.iPizza.Fields2;
 import ee.bitweb.banklinksdk.protocol.iPizza.PaymentRequest;
 import ee.bitweb.banklinksdk.request.PaymentRequestParams;
+import ee.bitweb.banklinksdk.seb.SebFields;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +26,9 @@ public abstract class Banklink {
     protected String encoding = "UTF-8";
     protected String language = "EST";
     protected String currency = "EUR";
+
+    protected Fields2 fields;
+
 
     public Banklink(Protocol protocol) {
         this.protocol = protocol;
@@ -46,16 +53,14 @@ public abstract class Banklink {
         paymentRequestParams.setIfNotDefinedEncoding(encoding);
         paymentRequestParams.setIfNotDefinedCurrency(currency);
 
+        Map<FieldDefinition, Object> requestData = protocol.preparePaymentRequest(paymentRequestParams);
 
-        Map<String, Object> requestData = new HashMap<String, Object>();
+        requestData = prepareSpecialFields(requestData);
 
-
-        protocol.preparePaymentRequest(paymentRequestParams);
-        prepareSpecialFields(requestData);
-
+        System.out.println(fields.MSG.getLength());
 
 
-        return new PaymentRequest();
+        return new PaymentRequest(requestData);
 
     }
 
@@ -63,6 +68,5 @@ public abstract class Banklink {
 
     }
 
-    abstract void prepareSpecialFields(Map<String, Object> requestData);
-
+    abstract protected Map<FieldDefinition, Object> prepareSpecialFields(Map<FieldDefinition, Object> requestData);
 }
