@@ -19,23 +19,38 @@ public abstract class Banklink {
 
     protected String successUri;
     protected String cancelUri;
+    protected String encoding = "UTF-8";
+    protected String language = "EST";
+    protected String currency = "EUR";
+
+    public Banklink(Protocol protocol) {
+        this.protocol = protocol;
+    }
 
     public Banklink(Protocol protocol, String successUri, String cancelUri) {
-        this.protocol = protocol;
+        this(protocol);
         this.successUri = successUri;
         this.cancelUri = cancelUri;
     }
 
-    public void makeRequest() {
-
+    public Banklink(Protocol protocol, String successUri, String cancelUri, String encoding, String language, String currency) {
+        this(protocol, successUri, cancelUri);
+        this.encoding = encoding;
+        this.language = language;
+        this.currency = currency;
     }
 
+
     public PaymentRequest preparePaymentRequest(PaymentRequestParams paymentRequestParams) {
+        paymentRequestParams.setIfNotDefinedLanguage(language);
+        paymentRequestParams.setIfNotDefinedEncoding(encoding);
+        paymentRequestParams.setIfNotDefinedCurrency(currency);
+
+
         Map<String, Object> requestData = new HashMap<String, Object>();
 
-        //requestData.putAll(protocol.prepareCommonParameters());
 
-        protocol.prepareRequest(requestData);
+        protocol.preparePaymentRequest(paymentRequestParams);
         prepareSpecialFields(requestData);
 
 

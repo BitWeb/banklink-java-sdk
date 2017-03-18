@@ -14,4 +14,16 @@ public class Vendor {
         this.name = name;
         this.accountNumber = accountNumber;
     }
+
+    public String getSenderId() {
+        return senderId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
 }

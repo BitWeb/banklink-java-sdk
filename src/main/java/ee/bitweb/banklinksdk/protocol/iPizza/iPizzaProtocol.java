@@ -2,7 +2,9 @@ package ee.bitweb.banklinksdk.protocol.iPizza;
 
 import ee.bitweb.banklinksdk.protocol.Protocol;
 import ee.bitweb.banklinksdk.protocol.Vendor;
+import ee.bitweb.banklinksdk.request.PaymentRequestParams;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,32 +28,25 @@ public class iPizzaProtocol extends Protocol {
         this.vendor = vendor;
     }
 
-    public void prepareRequest(Map<Fields, Object> requestData) {
+    public Map<Fields, Object> preparePaymentRequest(PaymentRequestParams paymentRequestParams) {
+        Map<Fields, Object> requestData = new HashMap<>();
         requestData.put(Fields.SERVICE, Services.PAYMENT_REQUEST);
         requestData.put(Fields.VERSION, version);
 
-        requestData.put(Fields.SERVICE, Services.PAYMENT_REQUEST);
-        requestData.put(Fields.SERVICE, Services.PAYMENT_REQUEST);
-        requestData.put(Fields.SERVICE, Services.PAYMENT_REQUEST);
-        requestData.put(Fields.SERVICE, Services.PAYMENT_REQUEST);
-        requestData.put(Fields.SERVICE, Services.PAYMENT_REQUEST);
-        requestData.put(Fields.SERVICE, Services.PAYMENT_REQUEST);
-        requestData.put(Fields.SERVICE, Services.PAYMENT_REQUEST);
-        requestData.put(Fields.SERVICE, Services.PAYMENT_REQUEST);
+        requestData.put(Fields.SND_ID, vendor.getSenderId());
+        requestData.put(Fields.STAMP, Services.PAYMENT_REQUEST);
+        requestData.put(Fields.AMOUNT, paymentRequestParams.getAmount());
+        requestData.put(Fields.CURR, paymentRequestParams.getCurrency());
+        requestData.put(Fields.REF, paymentRequestParams.getReferenceNumber());
+        requestData.put(Fields.MSG, paymentRequestParams.getMessage());
+        requestData.put(Fields.RETURN_URL, paymentRequestParams.getSuccessUri());
+        requestData.put(Fields.CANCEL_URL, paymentRequestParams.getCancelUri());
+        requestData.put(Fields.DATETIME, new Date());
 
+        requestData.put(Fields.ENCODING, paymentRequestParams.getEncoding());
+        requestData.put(Fields.LANG, paymentRequestParams.getLanguage());
 
-
-        /**
-         *
-         $this->addMacParameter(Constants::SERVICE, $service);
-         $this->addMacParameter(Constants::VERSION, $this->version);
-         $this->addParameter(Constants::MAC);
-         $this->addParameter(Constants::ENCODING, $this->encoding);
-         $this->addParameter(Constants::LANG, $this->language);
-         */
-
-       //requestData.put();
-
+        return requestData;
 
     }
 
