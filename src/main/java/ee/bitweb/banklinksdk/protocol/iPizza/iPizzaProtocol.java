@@ -26,7 +26,21 @@ public class iPizzaProtocol extends Protocol {
         this.vendor = vendor;
     }
 
-    public void prepareRequest(Map<String, Object> requestData) {
+    public void prepareRequest(Map<Fields, Object> requestData) {
+        requestData.put(Fields.SERVICE, Services.PAYMENT_REQUEST);
+        requestData.put(Fields.VERSION, version);
+
+        requestData.put(Fields.SERVICE, Services.PAYMENT_REQUEST);
+        requestData.put(Fields.SERVICE, Services.PAYMENT_REQUEST);
+        requestData.put(Fields.SERVICE, Services.PAYMENT_REQUEST);
+        requestData.put(Fields.SERVICE, Services.PAYMENT_REQUEST);
+        requestData.put(Fields.SERVICE, Services.PAYMENT_REQUEST);
+        requestData.put(Fields.SERVICE, Services.PAYMENT_REQUEST);
+        requestData.put(Fields.SERVICE, Services.PAYMENT_REQUEST);
+        requestData.put(Fields.SERVICE, Services.PAYMENT_REQUEST);
+
+
+
         /**
          *
          $this->addMacParameter(Constants::SERVICE, $service);
@@ -39,5 +53,11 @@ public class iPizzaProtocol extends Protocol {
        //requestData.put();
 
 
+    }
+
+    protected String getMac(Services service, Map<Fields, Object> requestData) {
+        //tsikkel üle Services.getFields(service);
+
+        return "";
     }
 }

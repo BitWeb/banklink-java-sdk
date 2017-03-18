@@ -108,7 +108,7 @@ public enum Fields {
     /**
      * Maksekorralduse seletus
      */
-    VK_MSG("VK_MSG"),
+    MSG("VK_MSG"),
 
     /**
      * Kontrollkood e. allkiri
