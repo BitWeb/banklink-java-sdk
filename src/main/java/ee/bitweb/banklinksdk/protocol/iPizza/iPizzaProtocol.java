@@ -37,7 +37,7 @@ public class iPizzaProtocol extends Protocol {
         requestData.put(Fields.AMOUNT, paymentRequestParams.getAmount());
         requestData.put(Fields.CURR, paymentRequestParams.getCurrency());
         requestData.put(Fields.REF, paymentRequestParams.getReferenceNumber());*/
-        requestData.put(Fields2.MSG, paymentRequestParams.getMessage());
+        requestData.put(Fields.MSG, paymentRequestParams.getMessage());
         /*requestData.put(Fields.RETURN_URL, paymentRequestParams.getSuccessUri());
         requestData.put(Fields.CANCEL_URL, paymentRequestParams.getCancelUri());
         requestData.put(Fields.DATETIME, new Date());
@@ -52,6 +52,7 @@ public class iPizzaProtocol extends Protocol {
 
     }
 
+
     protected String getRequestSignature(Map<Fields, Object> requestData) {
         String mac = getMac(requestData);
 
@@ -60,9 +61,24 @@ public class iPizzaProtocol extends Protocol {
         return "";
     }
 
-    protected String getMac(Map<Fields, Object> requestData) {
-        //tsikkel üle Services.getFields(service);
+    protected String getMac(Services service, Map<Fields, Object> requestData) {
+        String data = "";
+        for ( Fields field : Services.getFields(service)) {
 
-        return "";
+            data += padMacParameter(field.length, (String) requestData.get(field));
+        }
+
+        return data;
+    }
+
+    private String padMacParameter(int length, String value) {
+        String prefix = "";
+        int prefixLen = length - value.length();
+
+        for (int i = 0; i < prefixLen; i++) {
+            prefix += "0";
+        }
+
+        return prefix + value;
     }
 }

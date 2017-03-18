@@ -1,167 +1,169 @@
 package ee.bitweb.banklinksdk.protocol.iPizza;
 
+import ee.bitweb.banklinksdk.protocol.FieldDefinition;
+
 /**
  * Created by tobre on 18/03/2017.
  */
-public enum Fields {
+public abstract class Fields {
 
     /**
      * Teenuse number
      */
-    SERVICE ("VK_SERVICE", 4),
+    public static FieldDefinition SERVICE = new FieldDefinition("VK_SERVICE", 4);
 
     /**
      * Kasutatav krüptologaritm
      */
-    VERSION ("VK_VERSION", 3),
+    public static FieldDefinition VERSION = new FieldDefinition("VK_VERSION", 3);
 
     /**
      * Päringu ID
      */
-    STAMP("VK_STAMP", 20),
+    public static FieldDefinition STAMP = new FieldDefinition("VK_STAMP", 20);
 
     /**
      * Maksmisele kuuluv summa
      */
-    AMOUNT("VK_AMOUNT", 12),
+    public static FieldDefinition AMOUNT = new FieldDefinition("VK_AMOUNT", 12);
 
     /**
      * Valuuta nimi
      */
-    CURR("VK_CURR", 3),
-
+    public static FieldDefinition CURR = new FieldDefinition("VK_CURR", 3);
     /**
      * Saaja konto number
      */
-    ACC("VK_ACC", 34),
+    public static FieldDefinition ACC = new FieldDefinition("VK_ACC", 34);
 
     /**
      * Maksekorralduse viitenumber
      */
-    REF("VK_REF", 35),
+    public static FieldDefinition REF = new FieldDefinition("VK_REF", 35);
 
     /**
      * Soovitav suhtluskeel
      */
-    LANG("VK_LANG", 3),
+    public static FieldDefinition LANG = new FieldDefinition("VK_LANG", 3);
 
     /**
      * Maksekorralduse number
      */
-    T_NO("VK_T_NO", 20),
+    public static FieldDefinition T_NO = new FieldDefinition("VK_T_NO", 20);
 
     /**
      * Saaja konto number
      */
-    REC_ACC("VK_REC_ACC", 34),
+    public static FieldDefinition REC_ACC = new FieldDefinition("VK_REC_ACC", 3);
 
     /**
      * Maksja konto number
      */
-    SND_ACC("VK_SND_ACC", 34),
+    public static FieldDefinition SND_ACC = new FieldDefinition("VK_SND_ACC", 34);
 
     /**
      * Maksekorralduse kuupäev
      */
-    T_DATE("VK_T_DATE", 10),
+    public static FieldDefinition T_DATE = new FieldDefinition("VK_T_DATE", 10);
 
     /**
      * Näitab seda, kas pakett oli saadetud automaatselt (`Y`) või mitte (`N`)
      */
-    AUTO("VK_AUTO", 1),
+    public static FieldDefinition AUTO = new FieldDefinition("VK_AUTO", 1);
 
     /**
      * Kokkuleppeline kasutaja indifikaator
      */
-    USER("VK_USER", 16),
+    public static FieldDefinition USER = new FieldDefinition("VK_USER", 16);
 
     /**
      * Paketi genereerimise kuupäev
      */
-    DATE("VK_DATE", 10),
+    public static FieldDefinition DATE = new FieldDefinition("VK_DATE", 10);
 
     /**
      * Paketi genereerimise kellaaeg
      */
-    TIME("VK_TIME", 8),
+    public static FieldDefinition TIME = new FieldDefinition("VK_TIME", 8);
 
     /**
      * Kokkuleppel standardiseeritav kasutaja isikuandmeid sisaldav väli
      */
-    INFO("VK_INFO", 300),
+    public static FieldDefinition INFO = new FieldDefinition("VK_INFO", 300);
 
     /**
      * Oodatava vastuspaketi kood
      */
-    REPLY("VK_REPLY", 4),
+    public static FieldDefinition REPLY = new FieldDefinition("VK_REPLY", 4);
 
     /**
      * Sõnumi koostaja (partneri) ID
      */
-    SND_ID("VK_SND_ID"),
+    public static FieldDefinition SND_ID = new FieldDefinition("VK_SND_ID", null);
 
     /**
      * Saaja nimi
      */
-    NAME("VK_NAME"),
+    public static FieldDefinition NAME = new FieldDefinition("VK_NAME", null);
 
     /**
      * Maksekorralduse seletus
      */
-    MSG("VK_MSG"),
+    public static FieldDefinition MSG = new FieldDefinition("VK_MSG", null);
 
     /**
      * Kontrollkood e. allkiri
      */
-    MAC("VK_MAC", 700),
+    public static FieldDefinition MAC = new FieldDefinition("VK_MAC", 700);
 
     /**
      * URL, kuhu vastatakse edukal tehingu sooritamisel
      */
-    RETURN_URL("VK_RETURN"),
+    public static FieldDefinition RETURN_URL = new FieldDefinition("VK_RETURN", null);
 
     /**
      * URL, kuhu vastatakse ebaõnnestunud tehingu puhul
      */
-    CANCEL_URL("VK_CANCEL", 255),
+    public static FieldDefinition CANCEL_URL = new FieldDefinition("VK_CANCEL", 255);
 
     /**
      * Saaja nimi
      */
-    REC_NAME("VK_REC_NAME"),
+    public static FieldDefinition REC_NAME = new FieldDefinition("VK_REC_NAME", null);
 
     /**
      * Maksja nimi
      */
-    SND_NAME("VK_SND_NAME"),
+    public static FieldDefinition SND_NAME = new FieldDefinition("VK_SND_NAME", null);
 
     /**
      * Päringu vastuvõtja ID (Kaupluse ID)
      */
-    REC_ID("VK_REC_ID"),
+    public static FieldDefinition REC_ID = new FieldDefinition("VK_REC_ID", null);
 
     /**
      *
      * Päringu saatja poolt genereeritud juhuslik nonss (kasutatakse värskuse tagamiseks)
      */
-    NONCE("VK_NONCE", 50),
+    public static FieldDefinition NONCE = new FieldDefinition("VK_NONCE", 50);
 
-    DATETIME("VK_DATETIME", 24),
+    public static FieldDefinition DATETIME = new FieldDefinition("VK_DATETIME", 24);
 
-    T_DATETIME("VK_T_DATETIME", 24),
 
-    RID("VK_RID", 30),
+    public static FieldDefinition T_DATETIME = new FieldDefinition("VK_T_DATETIME", 24);
 
-    USER_NAME("VK_USER_NAME", 140),
+    public static FieldDefinition RID = new FieldDefinition("VK_RID", 30);
 
-    USER_ID("VK_USER_ID", 20),
+    public static FieldDefinition USER_NAME = new FieldDefinition("VK_USER_NAME", 140);
 
-    /*
+    public static FieldDefinition USER_ID = new FieldDefinition("VK_USER_ID", 20);
+
+        /*
      * Isikukoodi riik (kahetäheline kood vastavalt ISO 3166-1 standardile)
      */
-    COUNTRY("VK_COUNTRY", 2),
 
-    OTHER("VK_OTHER", 150),
+    public static FieldDefinition COUNTRY = new FieldDefinition("VK_COUNTRY", 2);
+    public static FieldDefinition OTHER = new FieldDefinition("VK_OTHER", 150);
 
     /*
      * Autentimisvahendi identifikaatori kood:
@@ -171,26 +173,10 @@ public enum Fields {
      * 6- PIN-kalkulaator;
      * 7- korduvkasutusega kaart
      */
-    TOKEN("VK_TOKEN", 2),
+    public static FieldDefinition TOKEN = new FieldDefinition("VK_TOKEN", 2);
 
     /*
      * Sõnumi kodeering. UTF-8 (vaikeväärtus), ISO-8859-1 või WINDOWS-1257
      */
-    ENCODING("VK_ENCODING", 12);
-
-    public String name;
-    public int length;
-
-    Fields(String name, int length) {
-        this.name = name;
-        this.length = length;
-    }
-
-    Fields(String name) {
-        this.name = name;
-    }
-
-    public String toString() {
-        return name;
-    }
+    public static FieldDefinition ENCODING = new FieldDefinition("VK_ENCODING", 12);
 }

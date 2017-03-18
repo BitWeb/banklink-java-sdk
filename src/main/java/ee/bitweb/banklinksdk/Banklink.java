@@ -3,12 +3,9 @@ package ee.bitweb.banklinksdk;
 import ee.bitweb.banklinksdk.protocol.FieldDefinition;
 import ee.bitweb.banklinksdk.protocol.Protocol;
 import ee.bitweb.banklinksdk.protocol.iPizza.Fields;
-import ee.bitweb.banklinksdk.protocol.iPizza.Fields2;
 import ee.bitweb.banklinksdk.protocol.iPizza.PaymentRequest;
 import ee.bitweb.banklinksdk.request.PaymentRequestParams;
-import ee.bitweb.banklinksdk.seb.SebFields;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -27,7 +24,7 @@ public abstract class Banklink {
     protected String language = "EST";
     protected String currency = "EUR";
 
-    protected Fields2 fields;
+    protected Fields fields;
 
 
     public Banklink(Protocol protocol) {

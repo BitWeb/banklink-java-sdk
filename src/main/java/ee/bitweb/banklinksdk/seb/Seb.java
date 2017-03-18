@@ -3,8 +3,6 @@ package ee.bitweb.banklinksdk.seb;
 import ee.bitweb.banklinksdk.Banklink;
 import ee.bitweb.banklinksdk.protocol.FieldDefinition;
 import ee.bitweb.banklinksdk.protocol.Protocol;
-import ee.bitweb.banklinksdk.protocol.iPizza.Fields;
-import ee.bitweb.banklinksdk.protocol.iPizza.Fields2;
 
 import java.util.Map;
 

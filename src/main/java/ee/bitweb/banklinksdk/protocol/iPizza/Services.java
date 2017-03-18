@@ -1,5 +1,7 @@
 package ee.bitweb.banklinksdk.protocol.iPizza;
 
+import ee.bitweb.banklinksdk.protocol.FieldDefinition;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,8 +26,8 @@ public enum Services {
         this.code = code;
     }
 
-    public static List<Fields> getFields(Services service) {
-        List<Fields> fields = new ArrayList<>();
+    public static List<FieldDefinition> getFields(Services service) {
+        List<FieldDefinition> fields = new ArrayList<>();
 
         switch (service) {
             case PAYMENT_REQUEST:
