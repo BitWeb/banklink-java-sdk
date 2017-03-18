@@ -5,7 +5,6 @@ import ee.bitweb.banklinksdk.protocol.Protocol;
 import ee.bitweb.banklinksdk.protocol.Vendor;
 import ee.bitweb.banklinksdk.request.PaymentRequestParams;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,8 +27,8 @@ public class iPizzaProtocol extends Protocol {
         this.vendor = vendor;
     }
 
-    public Map<FieldDefinition, Object> preparePaymentRequest(PaymentRequestParams paymentRequestParams) {
-        Map<FieldDefinition, Object> requestData = new HashMap<>();
+    public Map<FieldDefinition, String> preparePaymentRequest(PaymentRequestParams paymentRequestParams) {
+        Map<FieldDefinition, String> requestData = new HashMap<>();
         /*requestData.put(Fields.SERVICE, Services.PAYMENT_REQUEST);
         requestData.put(Fields.VERSION, version);
 
@@ -45,6 +44,8 @@ public class iPizzaProtocol extends Protocol {
 
         requestData.put(Fields.ENCODING, paymentRequestParams.getEncoding());
         requestData.put(Fields.LANG, paymentRequestParams.getLanguage());*/
+
+        //requestData.put(Field2.MAC, getMac(Services.PAYMENT_REQUEST, requestData));
 
         return requestData;
 

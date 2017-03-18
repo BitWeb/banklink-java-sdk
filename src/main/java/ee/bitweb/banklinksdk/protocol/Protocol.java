@@ -10,7 +10,7 @@ import java.util.Map;
 public abstract class Protocol {
 
     protected Boolean isTestMode = false;
-    protected String version;
+    protected String version = "008";
 
     public Boolean isTestMode() {
         return isTestMode;
@@ -20,5 +20,5 @@ public abstract class Protocol {
         isTestMode = testMode;
     }
 
-    abstract public Map<FieldDefinition, Object> preparePaymentRequest(PaymentRequestParams paymentRequestParams);
+    abstract public Map<FieldDefinition, String> preparePaymentRequest(PaymentRequestParams paymentRequestParams);
 }

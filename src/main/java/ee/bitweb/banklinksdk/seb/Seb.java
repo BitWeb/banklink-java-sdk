@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class Seb extends Banklink {
 
-    protected String requestUri = ""; //TODO: Meie libist võtta
+    protected String requestUri = "https://www.seb.ee/cgi-bin/unet3.sh/un3min.r";
     protected String testRequestUri = ""; //TODO: sebi specist võtta
 
     public Seb(Protocol protocol) {
@@ -32,7 +32,7 @@ public class Seb extends Banklink {
     }
 
     @Override
-    protected Map<FieldDefinition, Object> prepareSpecialFields(Map<FieldDefinition, Object> requestData) {
+    protected Map<FieldDefinition, String> prepareSpecialFields(Map<FieldDefinition, String> requestData) {
         return null;
     }
 

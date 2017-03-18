@@ -53,12 +53,9 @@ public abstract class Banklink {
         paymentRequestParams.setIfNotDefinedEncoding(encoding);
         paymentRequestParams.setIfNotDefinedCurrency(currency);
 
-        Map<FieldDefinition, Object> requestData = protocol.preparePaymentRequest(paymentRequestParams);
+        Map<FieldDefinition, String> requestData = protocol.preparePaymentRequest(paymentRequestParams);
 
         requestData = prepareSpecialFields(requestData);
-
-        System.out.println(fields.MSG.getLength());
-
 
         return new PaymentRequest(requestData);
 
@@ -68,5 +65,5 @@ public abstract class Banklink {
 
     }
 
-    abstract protected Map<FieldDefinition, Object> prepareSpecialFields(Map<FieldDefinition, Object> requestData);
+    abstract protected Map<FieldDefinition, String> prepareSpecialFields(Map<FieldDefinition, String> requestData);
 }

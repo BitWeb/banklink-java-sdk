@@ -9,9 +9,9 @@ import java.util.Map;
  */
 public class PaymentRequest {
 
-    protected Map<FieldDefinition, Object> requestData;
+    protected Map<FieldDefinition, String> requestData;
 
-    public PaymentRequest(Map<FieldDefinition, Object> requestData) {
+    public PaymentRequest(Map<FieldDefinition, String> requestData) {
         this.requestData = requestData;
     }
 }
