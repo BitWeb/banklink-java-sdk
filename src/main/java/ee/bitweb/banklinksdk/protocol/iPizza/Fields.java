@@ -98,17 +98,17 @@ public enum Fields {
     /**
      * Sõnumi koostaja (partneri) ID
      */
-    SND_ID("VK_SND_ID", null),
+    SND_ID("VK_SND_ID"),
 
     /**
      * Saaja nimi
      */
-    NAME("VK_NAME", null),
+    NAME("VK_NAME"),
 
     /**
      * Maksekorralduse seletus
      */
-    VK_MSG("VK_MSG", null),
+    VK_MSG("VK_MSG"),
 
     /**
      * Kontrollkood e. allkiri
@@ -118,7 +118,7 @@ public enum Fields {
     /**
      * URL, kuhu vastatakse edukal tehingu sooritamisel
      */
-    RETURN_URL("VK_RETURN", null),
+    RETURN_URL("VK_RETURN"),
 
     /**
      * URL, kuhu vastatakse ebaõnnestunud tehingu puhul
@@ -128,17 +128,17 @@ public enum Fields {
     /**
      * Saaja nimi
      */
-    REC_NAME("VK_REC_NAME", null),
+    REC_NAME("VK_REC_NAME"),
 
     /**
      * Maksja nimi
      */
-    SND_NAME("VK_SND_NAME", null),
+    SND_NAME("VK_SND_NAME"),
 
     /**
      * Päringu vastuvõtja ID (Kaupluse ID)
      */
-    REC_ID("VK_REC_ID", null),
+    REC_ID("VK_REC_ID"),
 
     /**
      *
@@ -184,6 +184,10 @@ public enum Fields {
     Fields(String name, int length) {
         this.name = name;
         this.length = length;
+    }
+
+    Fields(String name) {
+        this.name = name;
     }
 
     public String toString() {
