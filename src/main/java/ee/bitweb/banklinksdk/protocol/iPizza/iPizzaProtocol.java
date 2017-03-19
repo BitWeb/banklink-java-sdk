@@ -4,6 +4,7 @@ import ee.bitweb.banklinksdk.exception.BanklinkException;
 import ee.bitweb.banklinksdk.protocol.FieldDefinition;
 import ee.bitweb.banklinksdk.protocol.Protocol;
 import ee.bitweb.banklinksdk.protocol.Vendor;
+import ee.bitweb.banklinksdk.request.AuthenticationRequestParams;
 import ee.bitweb.banklinksdk.request.PaymentRequestParams;
 import ee.bitweb.banklinksdk.response.ResponseParams;
 import org.apache.commons.codec.binary.Base64;
@@ -77,6 +78,19 @@ public class iPizzaProtocol extends Protocol {
 
     }
 
+    public Map<FieldDefinition, String> prepareAuthenticationRequest(AuthenticationRequestParams requestParams) {
+        Map<FieldDefinition, String> requestData = new HashMap<>();
+
+        requestData.put(Fields.SERVICE, Services.PAYMENT_REQUEST.code);
+        requestData.put(Fields.VERSION, version);
+        requestData.put(Fields.SND_ID, vendor.getSenderId());
+        requestData.put(Fields.REPLY, "3012");
+        requestData.put(Fields.RETURN_URL, requestParams.getSuccessUri() == null ? successUri : requestParams.getSuccessUri());
+        requestData.put(Fields.CANCEL_URL, requestParams.getCancelUri() == null ? cancelUri : requestParams.getCancelUri());
+
+        return requestData;
+    }
+
     //FIXME: Encapuslate to Helper
 
 
@@ -134,24 +148,15 @@ public class iPizzaProtocol extends Protocol {
     }
 
     @Override
-    public Response handleResponse(Map<String, String> responseParams) {
+    public Response handleResponse(Map<FieldDefinition, String> responseParams) {
        // if (responseParams)
-        Map <FieldDefinition, String> fields = convertToFields(responseParams);
-        String mac = getMac(fields);
+        //Map <FieldDefinition, String> fields = convertToFields(responseParams);
+        String mac = getMac(responseParams);
 
-        return handlePaymentResponse(fields);
+        if (mac.equals(responseParams.get(Fields.MAC))) System.out.println("Mac is approved");
 
-    }
+        return handlePaymentResponse(responseParams);
 
-    private Map<FieldDefinition, String> convertToFields(Map<String, String> responseParams) {
-        Map<FieldDefinition, String> fields = new HashMap<>();
-
-        for (Map.Entry<String, String> responseParam : responseParams.entrySet()) {
-            //Convert to key to FieldDefinition object
-            //responseParam.getKey();
-        }
-
-        return fields;
     }
 
     protected PaymentResponse handlePaymentResponse(Map<FieldDefinition, String> responseParams) {

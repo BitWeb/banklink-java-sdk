@@ -2,12 +2,16 @@ package ee.bitweb.banklinksdk;
 
 import ee.bitweb.banklinksdk.protocol.FieldDefinition;
 import ee.bitweb.banklinksdk.protocol.Protocol;
+import ee.bitweb.banklinksdk.protocol.iPizza.AuthenticationRequest;
 import ee.bitweb.banklinksdk.protocol.iPizza.Fields;
 import ee.bitweb.banklinksdk.protocol.iPizza.PaymentRequest;
 import ee.bitweb.banklinksdk.protocol.iPizza.Response;
+import ee.bitweb.banklinksdk.request.AuthenticationRequestParams;
 import ee.bitweb.banklinksdk.response.ResponseParams;
 import ee.bitweb.banklinksdk.request.PaymentRequestParams;
 
+import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -62,12 +66,35 @@ public abstract class Banklink {
 
     }
 
-    public void prepareAuthenticationRequest() {
+    public AuthenticationRequest prepareAuthenticationRequest(AuthenticationRequestParams requestParams) {
+        requestParams.setIfNotDefinedLanguage(language);
+        requestParams.setIfNotDefinedEncoding(encoding);
 
+        Map<FieldDefinition, String> requestData = protocol.prepareAuthenticationRequest(requestParams);
+
+        return new AuthenticationRequest(!protocol.isTestMode() ? requestUri : testRequestUri, requestData);
     }
 
     public Response handleResponse(Map<String, String> responseParams) {
-        return protocol.handleResponse(responseParams);
+
+        Map<FieldDefinition, String> translatedResponse = new HashMap<>();
+        for (Map.Entry<String, String> responseParam : responseParams.entrySet()) {
+
+            try {
+                String translatedParam = convertToFieldParam(responseParam.getKey());
+                Field f = fields.getClass().getField(translatedParam);
+                FieldDefinition fieldDefinition = (FieldDefinition) f.get(null);
+                translatedResponse.put(fieldDefinition, responseParam.getValue());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return protocol.handleResponse(translatedResponse);
+    }
+
+    private String convertToFieldParam(String param) {
+        return param.substring(3);
     }
 
     abstract protected Map<FieldDefinition, String> prepareSpecialFields(Map<FieldDefinition, String> requestData);
