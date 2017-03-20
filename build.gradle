@@ -1,0 +1,32 @@
+plugins {
+    id "com.bmuschko.nexus" version "2.3.1"
+}
+
+repositories {
+    maven {
+        url "http://nexus.bitweb.ee/repository/maven-central/"
+    }
+}
+
+group 'ee.biweb'
+version '1.0.0'
+
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'commons-codec', name: 'commons-codec', version: '1.10'
+    compile group: 'joda-time', name: 'joda-time', version: '2.9.7'
+    compile group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.56'
+
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+nexus {
+    sign = false
+    repositoryUrl = 'http://nexus.bitweb.ee/repository/maven-public/'
+}
