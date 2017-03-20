@@ -38,9 +38,9 @@ public class Mac {
 
     private static RSAPrivateKey getPrivateKey(String pem) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
         PEMParser parser = new PEMParser(new StringReader(pem));
-        Object privatekey = parser.readObject();
+        Object privateKey = parser.readObject();
 
-        PEMKeyPair pair = (PEMKeyPair) privatekey;
+        PEMKeyPair pair = (PEMKeyPair) privateKey;
 
         byte[] encodedPrivateKey = pair.getPrivateKeyInfo().getEncoded();
 
@@ -51,7 +51,7 @@ public class Mac {
     }
 
 
-    public static String sign(String mac, String privateKey) throws GeneralSecurityException, IOException {
+    static String sign(String mac, String privateKey) throws GeneralSecurityException, IOException {
         RSAPrivateKey privKey = getPrivateKey(privateKey);
         Signature s = Signature.getInstance("SHA1withRSA");
         s.initSign(privKey);
@@ -61,7 +61,7 @@ public class Mac {
         return new String(Base64.encodeBase64(signature));
     }
 
-    public static Boolean verify(String mac, String signature, String publicKey) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, InvalidKeySpecException, GeneralSecurityException, IOException {
+    static Boolean verify(String mac, String signature, String publicKey) throws GeneralSecurityException, IOException {
         Certificate key = getPublicKey(publicKey);
 
         Security.addProvider(new BouncyCastleProvider());

@@ -77,7 +77,6 @@ public abstract class Banklink {
     protected abstract String getBankId();
 
     public Response handleResponse(Map<String, String> responseParams) {
-
         Map<FieldDefinition, String> translatedResponse = new HashMap<>();
         for (Map.Entry<String, String> responseParam : responseParams.entrySet()) {
             try {
