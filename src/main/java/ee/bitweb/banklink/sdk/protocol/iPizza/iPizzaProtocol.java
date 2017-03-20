@@ -72,8 +72,8 @@ public class iPizzaProtocol extends Protocol {
 
         try {
             requestData.put(Fields.MAC, Mac.sign(getMac(requestData), privateKey));
-        } catch (Exception e) {
-            throw new BanklinkException(e);
+        } catch (GeneralSecurityException | IOException e) {
+            throw new BanklinkException("MAC signing failed, private key error", e);
         }
 
         return requestData;
