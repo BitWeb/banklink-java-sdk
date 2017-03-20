@@ -5,11 +5,9 @@ jdk:
   - openjdk8
   - openjdk7
 
-before_script:
-  - chmod +x gradlew
 
 script:
-  - ./gradlew test jacocoTestReport
+  - gradle test jacocoTestReport
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
