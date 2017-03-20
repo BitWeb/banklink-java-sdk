@@ -1,0 +1,19 @@
+language: java
+jdk:
+  - oraclejdk8
+  - oraclejdk7
+  - oraclejdk6
+  - openjdk8
+  - openjdk7
+  - openjdk6
+
+install: ./gradlew clean test
+
+before_script:
+  - chmod +x gradlew
+
+script:
+  - ./gradlew test jacocoTestReport
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)

@@ -13,6 +13,10 @@ version '1.0.0'
 
 apply plugin: 'java'
 apply plugin: 'maven-publish'
+apply plugin: 'jacoco'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -29,4 +33,11 @@ dependencies {
 nexus {
     sign = false
     repositoryUrl = 'http://nexus.bitweb.ee/repository/maven-public/'
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled false
+    }
 }
