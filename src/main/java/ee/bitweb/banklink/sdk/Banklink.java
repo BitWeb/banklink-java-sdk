@@ -85,7 +85,7 @@ public abstract class Banklink {
                 FieldDefinition fieldDefinition = (FieldDefinition) f.get(null);
                 translatedResponse.put(fieldDefinition, responseParam.getValue());
             } catch (Exception e) {
-                throw new BanklinkException("Response mapping failed");
+                throw new BanklinkException("Response mapping failed", e);
             }
         }
 
