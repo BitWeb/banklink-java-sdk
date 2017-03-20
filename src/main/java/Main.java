@@ -83,28 +83,13 @@ public class Main {
 
         protocol.setTestMode(true);
         Banklink seb = new Seb(protocol);
-        PaymentRequest paymentRequest = seb.prepareRequest(new PaymentRequestParams("2", 0.01, "BitWeb test", "123"));
+        /*PaymentRequest paymentRequest = seb.prepareRequest(new PaymentRequestParams("2", 0.01, "BitWeb test", "123"));
 
         String html = paymentRequest.createRequestHtml();
 
         System.out.println(html);
 
 
-        // 004 1111
-        // 003 008
-        // 003 EYP
-        // 005 uid39
-        // 001 2
-        // 001 3
-        // 004 0.01
-        // 003 EUR
-        // 000
-        // 000
-        // 020 EE171010123456789017
-        // 009 Test Test
-        // 003 123
-        // 011 BitWeb test
-        // 024 2017-03-20T14:53:45+0000
         PaymentResponse response = (PaymentResponse) seb.handleResponse(new HashMap<String, String>() {{
             put("VK_STAMP", "2");
             put("VK_AUTO", "N");
@@ -126,32 +111,47 @@ public class Main {
             put("VK_LANG", "EST");
             put("VK_ENCODING", "UTF-8");
         }});
-        System.out.println(response.getTransactionTimestamp());
+        System.out.println(response.getTransactionTimestamp());*/
 
-        /*AuthenticationRequest authenticationRequest = seb.prepareRequest(new AuthenticationRequestParams());
+        AuthenticationRequest authenticationRequest = seb.prepareRequest(new AuthenticationRequestParams());
 
         String html2 = authenticationRequest.createRequestHtml();
 
+        System.out.println(html2);
+
+
+        //004 3013
+        //003 008
+        //024 2017-03-20T15:29:22+0000
+        //003 EYP
+        //005 uid39
+        //036 651e3650-306d-4912-a668-00974de2d6ba
+        //015 Tõõger Leõpäöld
+        //024 2017-03-20T15:29:22+0000
+        //002 EE
+        //000
+        //001 5
+        //000
         AuthenticationResponse authenticationResponse = (AuthenticationResponse) seb.handleResponse(new HashMap<String, String>() {{
             put("VK_USER_NAME", "Tõõger Leõpäöld");
-            put("VK_REC_ID", "Tõõger Leõpäöld");
+            put("VK_REC_ID", "uid39");
             put("VK_OTHER", "");
             put("VK_SERVICE", "3013");
             put("VK_SND_ID", "EYP");
-            put("VK_DATETIME", "2017-03-18T23:13:20+0200");
+            put("VK_DATETIME", "2017-03-20T15:29:22+0000");
             put("VK_VERSION", "008");
-            put("VK_MAC", "neP1ZmCST4M8uetVhVhf1UotL9gy1b63pojbO5EeJpjshQCpLI9rT7BH2tBkKrBQpBZycGvWdpIxzIo3lWDRdF3cDidXSgoF399f5E+ol8P5ADl9noyua7+L1cGUeTQBIjBifnCeSvdbXU3j5rkk59irlZqbRZGBZubXO5bQwSI=");
+            put("VK_MAC", "kiQJ/VW6koESn2kM+yrAUHHLVRDDoFRfbnsrEi6owv9qWNzmEucNYQQArc0of0nSLAlXHO79UYXVDpe+R5g0evZKSaml0LtFbwKMqxRz42Yggy3YDTJ7CkhaRt1uhGUy5m+j5GP1APtT4C6kMOF6VyAirnbEprfuKyH9qTqjQAAXLdQB3ILkRYQhuKCqzG1Sq3KjoGvmy5vvNMiXmx8W6tPOr0EpbbjTK0WWlvLGlx5kXilSfeBSpTo0fDOblBEC+Kpq+1wooanC5Dy8bsAe+2Vhi69LAAaqxKvm+NcDMJAxz+gqE1nvblZi7RVKlxHO0xOxyT1ckX7r3TxkBuJY7w==");
             put("VK_COUNTRY", "EE");
             put("VK_TOKEN", "5");
-            put("VK_NONCE", "f7bdee09-125e-43bf-be27-9d5f963beede");
+            put("VK_NONCE", "651e3650-306d-4912-a668-00974de2d6ba");
             put("VK_RID", "");
             put("VK_USER_ID", "37602294565");
         }});
 
-        System.out.println(authenticationResponse.getSenderId());
+        System.out.println(authenticationResponse.getSocialSecurityNumber());
 
-        System.out.println(html2);
-*/
+
+
     }
 
 }

@@ -95,6 +95,7 @@ public enum Services {
                 fields.add(Fields.DATETIME);
                 fields.add(Fields.SND_ID);
                 fields.add(Fields.REC_ID);
+                fields.add(Fields.NONCE);
                 fields.add(Fields.USER_NAME);
                 fields.add(Fields.USER_ID);
                 fields.add(Fields.COUNTRY);
