@@ -1,11 +1,11 @@
-import ee.bitweb.banklinksdk.Banklink;
-import ee.bitweb.banklinksdk.protocol.iPizza.*;
-import ee.bitweb.banklinksdk.protocol.iPizza.request.AuthenticationRequest;
-import ee.bitweb.banklinksdk.protocol.iPizza.response.AuthenticationResponse;
-import ee.bitweb.banklinksdk.params.AuthenticationRequestParams;
-import ee.bitweb.banklinksdk.banks.seb.Seb;
-import ee.bitweb.banklinksdk.protocol.Vendor;
-import ee.bitweb.banklinksdk.protocol.Protocol;
+import ee.bitweb.banklink.sdk.Banklink;
+import ee.bitweb.banklink.sdk.protocol.iPizza.iPizzaProtocol;
+import ee.bitweb.banklink.sdk.protocol.iPizza.request.AuthenticationRequest;
+import ee.bitweb.banklink.sdk.protocol.iPizza.response.AuthenticationResponse;
+import ee.bitweb.banklink.sdk.params.AuthenticationRequestParams;
+import ee.bitweb.banklink.sdk.banks.seb.Seb;
+import ee.bitweb.banklink.sdk.protocol.Vendor;
+import ee.bitweb.banklink.sdk.protocol.Protocol;
 
 import java.util.HashMap;
 
