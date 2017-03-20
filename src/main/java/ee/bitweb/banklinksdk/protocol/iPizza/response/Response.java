@@ -1,4 +1,4 @@
-package ee.bitweb.banklinksdk.protocol.iPizza;
+package ee.bitweb.banklinksdk.protocol.iPizza.response;
 
 import ee.bitweb.banklinksdk.protocol.FieldDefinition;
 

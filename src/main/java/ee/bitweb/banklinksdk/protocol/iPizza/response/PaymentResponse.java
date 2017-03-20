@@ -1,9 +1,6 @@
-package ee.bitweb.banklinksdk.protocol.iPizza;
+package ee.bitweb.banklinksdk.protocol.iPizza.response;
 
-import ee.bitweb.banklinksdk.protocol.FieldDefinition;
 import org.joda.time.DateTime;
-
-import java.util.Map;
 
 /**
  * Created by tobre on 18/03/2017.

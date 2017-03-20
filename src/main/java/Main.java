@@ -1,15 +1,13 @@
 import ee.bitweb.banklinksdk.Banklink;
-import ee.bitweb.banklinksdk.protocol.FieldDefinition;
 import ee.bitweb.banklinksdk.protocol.iPizza.*;
-import ee.bitweb.banklinksdk.request.AuthenticationRequestParams;
+import ee.bitweb.banklinksdk.protocol.iPizza.request.AuthenticationRequest;
+import ee.bitweb.banklinksdk.protocol.iPizza.response.AuthenticationResponse;
+import ee.bitweb.banklinksdk.params.AuthenticationRequestParams;
 import ee.bitweb.banklinksdk.seb.Seb;
 import ee.bitweb.banklinksdk.protocol.Vendor;
 import ee.bitweb.banklinksdk.protocol.Protocol;
-import ee.bitweb.banklinksdk.request.PaymentRequestParams;
-import ee.bitweb.banklinksdk.seb.SebFields;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by tobre on 18/03/2017.

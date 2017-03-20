@@ -1,29 +1,26 @@
 package ee.bitweb.banklinksdk.protocol.iPizza;
 
-import ee.bitweb.banklinksdk.Banklink;
 import ee.bitweb.banklinksdk.exception.BanklinkException;
 import ee.bitweb.banklinksdk.protocol.FieldDefinition;
 import ee.bitweb.banklinksdk.protocol.Protocol;
 import ee.bitweb.banklinksdk.protocol.Vendor;
-import ee.bitweb.banklinksdk.request.AuthenticationRequestParams;
-import ee.bitweb.banklinksdk.request.PaymentRequestParams;
+import ee.bitweb.banklinksdk.protocol.iPizza.response.AuthenticationResponse;
+import ee.bitweb.banklinksdk.protocol.iPizza.response.PaymentResponse;
+import ee.bitweb.banklinksdk.protocol.iPizza.response.Response;
+import ee.bitweb.banklinksdk.params.AuthenticationRequestParams;
+import ee.bitweb.banklinksdk.params.PaymentRequestParams;
 import org.apache.commons.codec.binary.Base64;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.security.*;
-import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
 import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
-import java.security.spec.X509EncodedKeySpec;
 import java.util.*;
 
 /**
@@ -157,8 +154,6 @@ public class iPizzaProtocol extends Protocol {
         String data = "";
 
         for (FieldDefinition field : Services.getFields(service)) {
-            System.out.println(field.getName());
-            System.out.println(requestData.get(field));
             data += padMacParameter(requestData.get(field));
         }
 

@@ -1,4 +1,4 @@
-package ee.bitweb.banklinksdk.request;
+package ee.bitweb.banklinksdk.params;
 
 public class AuthenticationRequestParams {
 

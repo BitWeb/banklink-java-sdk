@@ -1,4 +1,4 @@
-package ee.bitweb.banklinksdk.request;
+package ee.bitweb.banklinksdk.params;
 
 /**
  * Created by tobre on 18/03/2017.

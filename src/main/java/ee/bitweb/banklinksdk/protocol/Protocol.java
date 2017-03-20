@@ -1,10 +1,9 @@
 package ee.bitweb.banklinksdk.protocol;
 
-import ee.bitweb.banklinksdk.protocol.iPizza.Response;
-import ee.bitweb.banklinksdk.request.AuthenticationRequestParams;
-import ee.bitweb.banklinksdk.request.PaymentRequestParams;
+import ee.bitweb.banklinksdk.protocol.iPizza.response.Response;
+import ee.bitweb.banklinksdk.params.AuthenticationRequestParams;
+import ee.bitweb.banklinksdk.params.PaymentRequestParams;
 
-import java.lang.reflect.Field;
 import java.util.Map;
 
 /**

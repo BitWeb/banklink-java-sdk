@@ -3,13 +3,12 @@ package ee.bitweb.banklinksdk;
 import ee.bitweb.banklinksdk.exception.BanklinkException;
 import ee.bitweb.banklinksdk.protocol.FieldDefinition;
 import ee.bitweb.banklinksdk.protocol.Protocol;
-import ee.bitweb.banklinksdk.protocol.iPizza.AuthenticationRequest;
+import ee.bitweb.banklinksdk.protocol.iPizza.request.AuthenticationRequest;
 import ee.bitweb.banklinksdk.protocol.iPizza.Fields;
-import ee.bitweb.banklinksdk.protocol.iPizza.PaymentRequest;
-import ee.bitweb.banklinksdk.protocol.iPizza.Response;
-import ee.bitweb.banklinksdk.request.AuthenticationRequestParams;
-import ee.bitweb.banklinksdk.response.ResponseParams;
-import ee.bitweb.banklinksdk.request.PaymentRequestParams;
+import ee.bitweb.banklinksdk.protocol.iPizza.request.PaymentRequest;
+import ee.bitweb.banklinksdk.protocol.iPizza.response.Response;
+import ee.bitweb.banklinksdk.params.AuthenticationRequestParams;
+import ee.bitweb.banklinksdk.params.PaymentRequestParams;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
