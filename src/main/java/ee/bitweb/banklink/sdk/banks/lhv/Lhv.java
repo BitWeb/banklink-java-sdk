@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class Lhv extends Banklink {
 
-    private static String BANKID = "LHV";
+    private static final String BANKID = "LHV";
 
     public Lhv(Protocol protocol) {
         super(protocol);

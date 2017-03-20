@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class Nordea extends Banklink {
 
-    private static String BANKID = "NORDEA";
+    private static final String BANKID = "NORDEA";
 
     protected String testAuthenticationRequestUri = "https://netbank.nordea.com/pnbepaytest/epayp.jsp";
 

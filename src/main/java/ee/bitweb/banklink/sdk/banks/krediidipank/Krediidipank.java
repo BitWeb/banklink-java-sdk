@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class Krediidipank extends Banklink {
 
-    private static String BANKID = "Krediidipank";
+    private static final String BANKID = "Krediidipank";
 
     public Krediidipank(Protocol protocol) {
         super(protocol);

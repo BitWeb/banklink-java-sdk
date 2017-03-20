@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class Danske extends Banklink {
 
-    private static String BANKID = "SAMPOPANK";
+    private static final String BANKID = "SAMPOPANK";
 
     public Danske(Protocol protocol) {
         super(protocol);

@@ -73,8 +73,6 @@ public enum Services {
                 fields.add(Fields.REF);
                 fields.add(Fields.MSG);
                 fields.add(Fields.T_DATETIME);
-                fields.add(Fields.LANG);
-                fields.add(Fields.AUTO);
 
                 return fields;
             case PAYMENT_ERROR:

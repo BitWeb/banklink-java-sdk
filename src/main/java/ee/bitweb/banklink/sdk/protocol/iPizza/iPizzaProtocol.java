@@ -9,18 +9,11 @@ import ee.bitweb.banklink.sdk.protocol.Vendor;
 import ee.bitweb.banklink.sdk.protocol.iPizza.response.AuthenticationResponse;
 import ee.bitweb.banklink.sdk.protocol.iPizza.response.PaymentResponse;
 import ee.bitweb.banklink.sdk.protocol.iPizza.response.Response;
-import org.apache.commons.codec.binary.Base64;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.security.*;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.*;
 
 /**
@@ -69,7 +62,7 @@ public class iPizzaProtocol extends Protocol {
 
 
         try {
-            requestData.put(Fields.MAC, calculateMac(getMac(requestData)));
+            requestData.put(Fields.MAC, Mac.sign(getMac(requestData), privateKey));
         } catch (Exception e) {
             throw new BanklinkException(e);
         }
@@ -91,7 +84,7 @@ public class iPizzaProtocol extends Protocol {
         requestData.put(Fields.RID, "");
 
         try {
-            requestData.put(Fields.MAC, calculateMac(getMac(requestData)));
+            requestData.put(Fields.MAC, Mac.sign(getMac(requestData), privateKey));
         } catch (Exception e) {
             throw new BanklinkException(e);
         }
@@ -105,49 +98,6 @@ public class iPizzaProtocol extends Protocol {
 
     //FIXME: Encapuslate to Helper
 
-
-    public RSAPrivateKey getPrivateKeyFromString() throws IOException, GeneralSecurityException {
-        String privateKeyPEM = privateKey;
-        privateKeyPEM = privateKeyPEM.replace("-----BEGIN PRIVATE KEY-----", "");
-        privateKeyPEM = privateKeyPEM.replace("-----END PRIVATE KEY-----", "");
-        byte[] encoded = Base64.decodeBase64(privateKeyPEM);
-
-
-        KeyFactory kf = KeyFactory.getInstance("RSA");
-        PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(encoded);
-        RSAPrivateKey privKey = (RSAPrivateKey) kf.generatePrivate(keySpec);
-        return privKey;
-    }
-
-    public PublicKey getPublicKeyFromString() throws IOException, GeneralSecurityException {
-        /*CertificateFactory fact = CertificateFactory.getInstance("X.509");
-        FileInputStream is = new FileInputStream (args[0]);
-        X509Certificate cer = (X509Certificate) fact.generateCertificate(is);
-        return  cer.getPublicKey();*/
-        return null;
-    }
-
-
-
-    protected String calculateMac(String mac) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, InvalidKeySpecException, GeneralSecurityException, IOException {
-        RSAPrivateKey privKey = getPrivateKeyFromString();
-        Signature s = Signature.getInstance("SHA1withRSA");
-        s.initSign(privKey);
-        s.update(ByteBuffer.wrap(mac.getBytes()));
-        byte[] signature = s.sign();
-
-        return new String(Base64.encodeBase64(signature));
-    }
-
-    //FIXME: implement verification
-    protected Boolean verifyMac(String mac) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, InvalidKeySpecException, GeneralSecurityException, IOException {
-        /*PublicKey publicKey = getPublicKeyFromString();
-        Signature s = Signature.getInstance("SHA1withRSA");
-        s.initVerify(publicKey);
-        //s.update(ByteBuffer.wrap(mac.getBytes()));
-        return s.verify(mac.getBytes());*/
-        return true;
-    }
 
     protected String getMac(Map<FieldDefinition, String> requestData) {
         Services service = Services.getByCode(requestData.get(Fields.SERVICE));
@@ -183,7 +133,7 @@ public class iPizzaProtocol extends Protocol {
 
         Boolean isMacVerified = false;
         try {
-            isMacVerified = verifyMac(mac);
+            isMacVerified = Mac.verify(mac, responseParams.get(Fields.MAC), publicKey);
         } catch (Exception e) {
             throw new BanklinkException(e);
         }
