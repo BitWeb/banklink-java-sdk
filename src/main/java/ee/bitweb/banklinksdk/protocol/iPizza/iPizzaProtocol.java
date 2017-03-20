@@ -139,6 +139,7 @@ public class iPizzaProtocol extends Protocol {
         return new String(Base64.encodeBase64(signature));
     }
 
+    //FIXME: implement verification
     protected Boolean verifyMac(String mac) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, InvalidKeySpecException, GeneralSecurityException, IOException {
         /*PublicKey publicKey = getPublicKeyFromString();
         Signature s = Signature.getInstance("SHA1withRSA");

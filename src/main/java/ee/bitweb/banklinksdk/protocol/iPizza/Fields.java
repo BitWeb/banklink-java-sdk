@@ -5,7 +5,7 @@ import ee.bitweb.banklinksdk.protocol.FieldDefinition;
 /**
  * Created by tobre on 18/03/2017.
  */
-public abstract class Fields {
+public class Fields {
 
     /**
      * Teenuse number
@@ -99,17 +99,17 @@ public abstract class Fields {
     /**
      * Sõnumi koostaja (partneri) ID
      */
-    public static FieldDefinition SND_ID = new FieldDefinition("VK_SND_ID", null);
+    public static FieldDefinition SND_ID = new FieldDefinition("VK_SND_ID", 15);
 
     /**
      * Saaja nimi
      */
-    public static FieldDefinition NAME = new FieldDefinition("VK_NAME", null);
+    public static FieldDefinition NAME = new FieldDefinition("VK_NAME", 70);
 
     /**
      * Maksekorralduse seletus
      */
-    public static FieldDefinition MSG = new FieldDefinition("VK_MSG", null);
+    public static FieldDefinition MSG = new FieldDefinition("VK_MSG", 95);
 
     /**
      * Kontrollkood e. allkiri
@@ -119,7 +119,7 @@ public abstract class Fields {
     /**
      * URL, kuhu vastatakse edukal tehingu sooritamisel
      */
-    public static FieldDefinition RETURN_URL = new FieldDefinition("VK_RETURN", null);
+    public static FieldDefinition RETURN_URL = new FieldDefinition("VK_RETURN", 255);
 
     /**
      * URL, kuhu vastatakse ebaõnnestunud tehingu puhul
@@ -129,17 +129,17 @@ public abstract class Fields {
     /**
      * Saaja nimi
      */
-    public static FieldDefinition REC_NAME = new FieldDefinition("VK_REC_NAME", null);
+    public static FieldDefinition REC_NAME = new FieldDefinition("VK_REC_NAME", 70);
 
     /**
      * Maksja nimi
      */
-    public static FieldDefinition SND_NAME = new FieldDefinition("VK_SND_NAME", null);
+    public static FieldDefinition SND_NAME = new FieldDefinition("VK_SND_NAME", 70);
 
     /**
      * Päringu vastuvõtja ID (Kaupluse ID)
      */
-    public static FieldDefinition REC_ID = new FieldDefinition("VK_REC_ID", null);
+    public static FieldDefinition REC_ID = new FieldDefinition("VK_REC_ID", 15);
 
     /**
      *
