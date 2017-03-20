@@ -9,16 +9,24 @@ import java.util.Map;
  */
 public class Request {
 
-    protected String bankUri;
+    protected String requestUri;
     protected Map<FieldDefinition, String> requestData;
 
-    public Request(String uri, Map<FieldDefinition, String> requestData) {
-        this.bankUri = uri;
+    public Request(String requestUri, Map<FieldDefinition, String> requestData) {
+        this.requestUri = requestUri;
         this.requestData = requestData;
     }
 
+    public String getRequestUri() {
+        return requestUri;
+    }
+
+    public Map<FieldDefinition, String> getRequestData() {
+        return requestData;
+    }
+
     public String createRequestHtml() {
-        String data = "<html><body><form id=\"bankForm\" method=\"POST\" action=\""+this.bankUri+"\">\n";
+        String data = "<html><body><form id=\"bankForm\" method=\"POST\" action=\""+this.requestUri +"\">\n";
         data += renderHiddenValues();
         data += "</form>\n";
         data += "<script type=\"text/javascript\">document.getElementById(\"bankForm\").submit();</script></body></html>\n";

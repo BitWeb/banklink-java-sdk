@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class Seb extends Banklink {
 
-    private static final String BANKID = "EYP";
+    public static final String BANKID = "EYP";
 
     public Seb(Protocol protocol) {
         super(protocol);

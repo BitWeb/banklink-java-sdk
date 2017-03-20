@@ -42,6 +42,10 @@ public class Mac {
 
         PEMKeyPair pair = (PEMKeyPair) privateKey;
 
+        if (privateKey == null) {
+            throw new InvalidKeySpecException("Private key not in right format");
+        }
+
         byte[] encodedPrivateKey = pair.getPrivateKeyInfo().getEncoded();
 
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
