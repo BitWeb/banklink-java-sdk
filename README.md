@@ -12,9 +12,10 @@ Protocol protocol = new iPizzaProtocol(
     new Vendor(
         "uid42",
         "Test Test",
-        "EE411010002050618003"),
-        "http://requestb.in/18d2oau1",
-        "http://requestb.in/18d2oau1"
+        "EE411010002050618003"
+    ),
+    "http://requestb.in/18d2oau1",
+    "http://requestb.in/18d2oau1"
 );
 
 protocol.setTestMode(true);
