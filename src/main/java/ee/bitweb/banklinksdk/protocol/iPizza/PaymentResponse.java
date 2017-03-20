@@ -1,6 +1,7 @@
 package ee.bitweb.banklinksdk.protocol.iPizza;
 
 import ee.bitweb.banklinksdk.protocol.FieldDefinition;
+import org.joda.time.DateTime;
 
 import java.util.Map;
 
@@ -9,7 +10,31 @@ import java.util.Map;
  */
 public class PaymentResponse extends Response {
 
-    public PaymentResponse(Map<FieldDefinition, String> responseData) {
-        super(responseData);
+    protected String transactionNumber;
+    protected String senderId;
+    protected Boolean isAuto;
+    protected DateTime transactionTimestamp;
+
+    public PaymentResponse(String transactionNumber, String senderId, Boolean isAuto, DateTime transactionTimestamp) {
+        this.transactionNumber = transactionNumber;
+        this.senderId = senderId;
+        this.isAuto = isAuto;
+        this.transactionTimestamp = transactionTimestamp;
+    }
+
+    public String getTransactionNumber() {
+        return transactionNumber;
+    }
+
+    public String getSenderId() {
+        return senderId;
+    }
+
+    public Boolean isAuto() {
+        return isAuto;
+    }
+
+    public DateTime getTransactionTimestamp() {
+        return transactionTimestamp;
     }
 }

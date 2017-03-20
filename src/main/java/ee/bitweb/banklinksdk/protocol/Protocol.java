@@ -25,8 +25,7 @@ public abstract class Protocol {
 
     abstract public Map<FieldDefinition, String> preparePaymentRequest(PaymentRequestParams paymentRequestParams);
 
-    abstract public Map<FieldDefinition, String> prepareAuthenticationRequest(AuthenticationRequestParams requestParams);
-
+    abstract public Map<FieldDefinition, String> prepareAuthenticationRequest(AuthenticationRequestParams requestParams, String bankId);
 
     public abstract Response handleResponse(Map<FieldDefinition, String> responseParams);
 }

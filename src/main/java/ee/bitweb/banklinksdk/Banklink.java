@@ -1,5 +1,6 @@
 package ee.bitweb.banklinksdk;
 
+import ee.bitweb.banklinksdk.exception.BanklinkException;
 import ee.bitweb.banklinksdk.protocol.FieldDefinition;
 import ee.bitweb.banklinksdk.protocol.Protocol;
 import ee.bitweb.banklinksdk.protocol.iPizza.AuthenticationRequest;
@@ -32,7 +33,6 @@ public abstract class Banklink {
 
     protected Fields fields;
 
-
     public Banklink(Protocol protocol) {
         this.protocol = protocol;
     }
@@ -50,8 +50,7 @@ public abstract class Banklink {
         this.currency = currency;
     }
 
-
-    public PaymentRequest preparePaymentRequest(PaymentRequestParams paymentRequestParams) {
+    public PaymentRequest prepareRequest(PaymentRequestParams paymentRequestParams) {
         paymentRequestParams.setIfNotDefinedLanguage(language);
         paymentRequestParams.setIfNotDefinedEncoding(encoding);
         paymentRequestParams.setIfNotDefinedCurrency(currency);
@@ -60,33 +59,35 @@ public abstract class Banklink {
 
         prepareSpecialFields(requestData);
 
-
-
-        return new PaymentRequest(!protocol.isTestMode() ? requestUri : testRequestUri, requestData);
-
+        return new PaymentRequest(isTestMode(), requestData);
     }
 
-    public AuthenticationRequest prepareAuthenticationRequest(AuthenticationRequestParams requestParams) {
+    private String isTestMode() {
+        return !protocol.isTestMode() ? requestUri : testRequestUri;
+    }
+
+    public AuthenticationRequest prepareRequest(AuthenticationRequestParams requestParams) {
         requestParams.setIfNotDefinedLanguage(language);
         requestParams.setIfNotDefinedEncoding(encoding);
 
-        Map<FieldDefinition, String> requestData = protocol.prepareAuthenticationRequest(requestParams);
+        Map<FieldDefinition, String> requestData = protocol.prepareAuthenticationRequest(requestParams, getBankId());
 
-        return new AuthenticationRequest(!protocol.isTestMode() ? requestUri : testRequestUri, requestData);
+        return new AuthenticationRequest(isTestMode(), requestData);
     }
+
+    protected abstract String getBankId();
 
     public Response handleResponse(Map<String, String> responseParams) {
 
         Map<FieldDefinition, String> translatedResponse = new HashMap<>();
         for (Map.Entry<String, String> responseParam : responseParams.entrySet()) {
-
             try {
                 String translatedParam = convertToFieldParam(responseParam.getKey());
                 Field f = fields.getClass().getField(translatedParam);
                 FieldDefinition fieldDefinition = (FieldDefinition) f.get(null);
                 translatedResponse.put(fieldDefinition, responseParam.getValue());
             } catch (Exception e) {
-                e.printStackTrace();
+                throw new BanklinkException("Response mapping failed");
             }
         }
 

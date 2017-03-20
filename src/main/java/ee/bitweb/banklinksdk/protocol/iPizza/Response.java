@@ -9,13 +9,9 @@ import java.util.Map;
  */
 public class Response {
 
-    protected Map<FieldDefinition, String> responseData;
+    protected String senderId;
 
-    public Response(Map<FieldDefinition, String> responseData) {
-        this.responseData = responseData;
-    }
-
-    public Map<FieldDefinition, String> getResponseData() {
-        return responseData;
+    public String getSenderId() {
+        return senderId;
     }
 }

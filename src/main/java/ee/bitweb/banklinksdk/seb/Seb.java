@@ -3,6 +3,7 @@ package ee.bitweb.banklinksdk.seb;
 import ee.bitweb.banklinksdk.Banklink;
 import ee.bitweb.banklinksdk.protocol.FieldDefinition;
 import ee.bitweb.banklinksdk.protocol.Protocol;
+import ee.bitweb.banklinksdk.protocol.iPizza.Fields;
 
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import java.util.Map;
  */
 public class Seb extends Banklink {
 
+    private static String BANKID = "EYP";
 
     public Seb(Protocol protocol) {
         super(protocol);
@@ -31,7 +33,11 @@ public class Seb extends Banklink {
 
     @Override
     protected Map<FieldDefinition, String> prepareSpecialFields(Map<FieldDefinition, String> requestData) {
-        return null;
+        return requestData;
     }
 
+    @Override
+    protected String getBankId() {
+        return BANKID;
+    }
 }

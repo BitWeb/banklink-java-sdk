@@ -18,7 +18,7 @@ public enum Services {
     //Responses
     PAYMENT_SUCCESS("1111"),
     PAYMENT_ERROR("1911"),
-    AUTHENTICATE_SUCCESS("3012");
+    AUTHENTICATE_SUCCESS("3013");
 
     public String code;
 
@@ -95,7 +95,6 @@ public enum Services {
                 fields.add(Fields.SERVICE);
                 fields.add(Fields.VERSION);
 
-                fields.add(Fields.USER);
                 fields.add(Fields.DATETIME);
                 fields.add(Fields.SND_ID);
                 fields.add(Fields.REC_ID);

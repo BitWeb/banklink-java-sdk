@@ -1,12 +1,10 @@
 import ee.bitweb.banklinksdk.Banklink;
 import ee.bitweb.banklinksdk.protocol.FieldDefinition;
-import ee.bitweb.banklinksdk.protocol.iPizza.Fields;
-import ee.bitweb.banklinksdk.protocol.iPizza.Response;
+import ee.bitweb.banklinksdk.protocol.iPizza.*;
+import ee.bitweb.banklinksdk.request.AuthenticationRequestParams;
 import ee.bitweb.banklinksdk.seb.Seb;
 import ee.bitweb.banklinksdk.protocol.Vendor;
 import ee.bitweb.banklinksdk.protocol.Protocol;
-import ee.bitweb.banklinksdk.protocol.iPizza.PaymentRequest;
-import ee.bitweb.banklinksdk.protocol.iPizza.iPizzaProtocol;
 import ee.bitweb.banklinksdk.request.PaymentRequestParams;
 import ee.bitweb.banklinksdk.seb.SebFields;
 
@@ -35,20 +33,22 @@ public class Main {
             "SeIymXiA/fBTGzc=\n" +
             "-----END PRIVATE KEY-----";
 
-    protected static String publicKey =
-            "MIICTTCCAbYCCQDyGqVt0TTWTDANBgkqhkiG9w0BAQsFADBrMQswCQYDVQQGEwJF\n" +
-            "RTEOMAwGA1UECAwFVGFydHUxDjAMBgNVBAcMBVRhcnR1MQwwCgYDVQQKDANhc2Qx\n" +
-            "DDAKBgNVBAsMA2FzZDEMMAoGA1UEAwwDYXNkMRIwEAYJKoZIhvcNAQkBFgNhc2Qw\n" +
-            "HhcNMTcwMzE4MTcyMDQ4WhcNMTgwMzE4MTcyMDQ4WjBrMQswCQYDVQQGEwJFRTEO\n" +
-            "MAwGA1UECAwFVGFydHUxDjAMBgNVBAcMBVRhcnR1MQwwCgYDVQQKDANhc2QxDDAK\n" +
-            "BgNVBAsMA2FzZDEMMAoGA1UEAwwDYXNkMRIwEAYJKoZIhvcNAQkBFgNhc2QwgZ8w\n" +
-            "DQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAL0EIrY3QnMBxNYXDuHNVTxaA86spECJ\n" +
-            "093l3J92m8GE6YEQhZ3YoLUi2ZrQGVT5CQMm1mLfqV0fiupkc2YJginlwjPNI5OR\n" +
-            "Jq4afuaaQeDiO6+hQKs0ctHrvrtYdaOc5iKf40lkQZnonHwQ9Fwz0s5bx4EwFT9S\n" +
-            "3ynyjVUckdhXAgMBAAEwDQYJKoZIhvcNAQELBQADgYEAa0vcJcbjcMIM9fDpWIZx\n" +
-            "y1CNysOnNJLE6AfvuMR/l292Z1q6QJFNz6IQnr3UpeByDzlJqPIddeRYrJKvZVo/\n" +
-            "dHPG7NOFJlHf64VDmWFobswMjO2ABbPejGlVDSnCuQ9zf2Tcrp0vo/8LxSLBHO83\n" +
-            "uIzzHtAu+2oVGx60/9AoXw8=";
+    protected static String publicKey ="-----BEGIN CERTIFICATE-----\n" +
+            "MIICkTCCAfoCCQDvOtxgR6zmIDANBgkqhkiG9w0BAQUFADCBjDELMAkGA1UEBhMC\n" +
+            "RUUxETAPBgNVBAgTCEhhcmp1bWFhMRAwDgYDVQQHEwdUYWxsaW5uMQ0wCwYDVQQK\n" +
+            "EwRUZXN0MREwDwYDVQQLEwhiYW5rbGluazEXMBUGA1UEAxMObG9jYWxob3N0IDg4\n" +
+            "ODgxHTAbBgkqhkiG9w0BCQEWDnRlc3RAbG9jYWxob3N0MB4XDTE3MDMxODIwNDYw\n" +
+            "OFoXDTM3MDMxMzIwNDYwOFowgYwxCzAJBgNVBAYTAkVFMREwDwYDVQQIEwhIYXJq\n" +
+            "dW1hYTEQMA4GA1UEBxMHVGFsbGlubjENMAsGA1UEChMEVGVzdDERMA8GA1UECxMI\n" +
+            "YmFua2xpbmsxFzAVBgNVBAMTDmxvY2FsaG9zdCA4ODg4MR0wGwYJKoZIhvcNAQkB\n" +
+            "Fg50ZXN0QGxvY2FsaG9zdDCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAv1hH\n" +
+            "iqw8qcvqcnAIq5K6K6nG0VNaTHD4orfoHsAGgruYFaKLMuo09CfZXiVLPwKXnpFW\n" +
+            "l5plBuZPuec8d/693G/LW4hV8oMq8WheaucE2s+ZC3/V3bFcP7AU0D2XwO1k3Ihs\n" +
+            "kTb8R5g0563otX2JSTQQmTmeG3vGuIkZKlPbhO0CAwEAATANBgkqhkiG9w0BAQUF\n" +
+            "AAOBgQBjpGAViO3pgDmuSGg61+NNbngS58eWatcOXLq3WNK0H+2Z/iKXWXPhug7d\n" +
+            "gUCmYn/n5eHQPa4J4habjx3RuiZbJZ+6zDuvWyjMdiJPwYEYCwZuvz2Y9mjAn55W\n" +
+            "yIRwpYT3OZPPlbfMFwBl5cNdZxows+hPindIalQMJw0zr6KOiw==\n" +
+            "-----END CERTIFICATE-----";
 
     public static void main(String args[]) {
 
@@ -59,21 +59,20 @@ public class Main {
                     "uid100010",
                     "TIIGER LEOPOLDÃµ",
                     "EE411010002050618003"),
-                    "http://requestb.in/rdogj8rd",
-                    "http://requestb.in/rdogj8rd"
+                    "http://requestb.in/po9q6lpo",
+                    "http://requestb.in/po9q6lpo"
             );
 
         protocol.setTestMode(true);
         Banklink seb = new Seb(protocol);
 
-        PaymentRequest paymentRequest = seb.preparePaymentRequest(new PaymentRequestParams("1", 0.01, "BitWeb test", "643519"));
+        //PaymentRequest paymentRequest = seb.prepareRequest(new PaymentRequestParams("1", 0.01, "BitWeb test", "643519"));
 
-        String html = paymentRequest.createRequestHtml();
+        //String html = paymentRequest.createRequestHtml();
 
-        System.out.println(html);
+        //System.out.println(html);
 
-
-        Response response = seb.handleResponse(new HashMap<String, String>() {{
+        /*PaymentResponse response = (PaymentResponse) seb.handleResponse(new HashMap<String, String>() {{
             put("VK_STAMP", "1");
             put("VK_AUTO", "Y");
             put("VK_T_NO", "10002");
@@ -94,9 +93,31 @@ public class Main {
             put("VK_LANG", "EST");
             put("VK_ENCODING", "UTF-8");
         }});
+        System.out.println(response.getTransactionTimestamp());*/
 
+        AuthenticationRequest authenticationRequest = seb.prepareRequest(new AuthenticationRequestParams());
 
-        seb.prepareAuthenticationRequest();
+        String html2 = authenticationRequest.createRequestHtml();
+
+        AuthenticationResponse authenticationResponse = (AuthenticationResponse) seb.handleResponse(new HashMap<String, String>() {{
+            put("VK_USER_NAME", "Tõõger Leõpäöld");
+            put("VK_REC_ID", "Tõõger Leõpäöld");
+            put("VK_OTHER", "");
+            put("VK_SERVICE", "3013");
+            put("VK_SND_ID", "EYP");
+            put("VK_DATETIME", "2017-03-18T23:13:20+0200");
+            put("VK_VERSION", "008");
+            put("VK_MAC", "neP1ZmCST4M8uetVhVhf1UotL9gy1b63pojbO5EeJpjshQCpLI9rT7BH2tBkKrBQpBZycGvWdpIxzIo3lWDRdF3cDidXSgoF399f5E+ol8P5ADl9noyua7+L1cGUeTQBIjBifnCeSvdbXU3j5rkk59irlZqbRZGBZubXO5bQwSI=");
+            put("VK_COUNTRY", "EE");
+            put("VK_TOKEN", "5");
+            put("VK_NONCE", "f7bdee09-125e-43bf-be27-9d5f963beede");
+            put("VK_RID", "");
+            put("VK_USER_ID", "37602294565");
+        }});
+
+        System.out.println(authenticationResponse.getSenderId());
+
+        System.out.println(html2);
 
     }
 
