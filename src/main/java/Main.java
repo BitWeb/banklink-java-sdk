@@ -1,4 +1,6 @@
 import ee.bitweb.banklink.sdk.Banklink;
+import ee.bitweb.banklink.sdk.banks.lhv.Lhv;
+import ee.bitweb.banklink.sdk.banks.swedbank.Swedbank;
 import ee.bitweb.banklink.sdk.params.PaymentRequestParams;
 import ee.bitweb.banklink.sdk.protocol.iPizza.iPizzaProtocol;
 import ee.bitweb.banklink.sdk.protocol.iPizza.request.AuthenticationRequest;
@@ -18,54 +20,54 @@ import java.util.HashMap;
 public class Main {
 
     protected static String privateKey ="-----BEGIN RSA PRIVATE KEY-----\n" +
-            "MIIEpAIBAAKCAQEAwC0ecXChITo1mKDctdWAgtK1CjquE6axMmhfmav89z096oLr\n" +
-            "xr0zPA0D5DH9tnuTFuszp6jHi8SEA/V9rvpVjReFQMMHYi5Z4qXuDjo6y48pT4VL\n" +
-            "8KVVzjJvSYhkXmoc6N1G1VCV+ylHTZHrOUjwyv+xo1NhZs3Wd3mGkvmZPWu2PM7C\n" +
-            "4LKviH93Znc0Q/2gzFWsZkg+ipMVilkzHTLUtTbiFX0v3UfI9NdtsiW70E4NU4Fx\n" +
-            "PuiZTtngnDj8kWSHUhQGOAPNATqJWJXksUbElRe0lTErEp70fQuCbZzszdSCuq2f\n" +
-            "ty5ffdw9RTQ9ovEOgFausqXcODSJlXu8A/Wh2QIDAQABAoIBAQCsjNZ0zMggaX+O\n" +
-            "F4GU0qqczEw5bw62HkmkFQshk8eCxr49Pmgs/dxu4tDHqAtCOhqLzYuH0oe4+y39\n" +
-            "0AKVhbgjAydmSrbqdOvIEWx54dbAxz40ZF8XJ5yvk6FQyOI109k5TNU42y6PYTTg\n" +
-            "dVBbEx8BZiw9lbQy9kbG55rphKsO9YUvINkka1XQGv3VBK9ndwtM76dY42NWYd1x\n" +
-            "fPIHTqwygpcW8sv3CaQyU1XTon+xtbOXcffJgcHZjIMyyTHOCUbRuZQ5PKAqMM1O\n" +
-            "UTiK2vXDej2p6yOXNmDgSOEoD/sANaEzzgGixhDH+sXsdSehX8Q3kXCo32nSlDwb\n" +
-            "4ynQDjQBAoGBAOOARYwW5fuUs9UnE7WAYrexhcgjV2DNOE2VjH+vzs/JvNF44Tmb\n" +
-            "tNu0trJwcWd+/FybTsaTgOZTB4JgqrfOGTF9+f1jXJI7ku/aapSCgUhuD4nfB0Xq\n" +
-            "7fk/QDh+f15b+0OsIeVB+2JYTRnCPUpBpwvUQd/ntTqjujEyb8UkAyE5AoGBANhA\n" +
-            "BChW0ql/Bl/TCH+iLse+y46tJoPwHGDjKTqoHoScMubA3d4p89dtuRW3aOUVYXfc\n" +
-            "xR/xi6v5RVJ0XxJsIcaUfvCcwScCNZEb47EYAwhvs9CNKUMZEKygDiQLwQ1Aef/U\n" +
-            "ThEmoXVVQoJ6MrVmlPiZb8RKD5PXWDnLM1ZqNKWhAoGAYU78cG9a78ErKoEMbRX9\n" +
-            "I5VLI8/6D+23p3fQIM2SKE6h9Pc/XuS69z7U5n4yA5LNXs8PYuC0wc/B5oJygywk\n" +
-            "mobH5xoY/nN85hsGe39WzSRGgTJkagOSxonHbmKtGC8/yjJWTTlrzST31Yy/qoNq\n" +
-            "cCTaCGuTmQFvIpvwMuK0dAECgYEAhAhiAXcxXEewTqV81ODjCxYVFuHlWD0sNoO7\n" +
-            "0pJ/P5xW/8jWLiUTOn9FuFqpcuVhA1wKB3zlOHUTvEpNGeRnouVbs/EhhX210wli\n" +
-            "NehhQa9h7H2jqdIN+jgnKh77Geo6Etc/av1ZK1iJKT0O5O7jGf4k3YYSiMO8nFzS\n" +
-            "1Xo29sECgYAxVI77ftYiRNhWYYjVGfXe3+HhmHR+QbeD2083z8KBN6V22oN5ikgp\n" +
-            "wxp0GeFFvkHJ3JpPQ6Kp5y0c1tFq7rnAT9kFHm7zv/KgamRNFuE81kk8WS0CzqHD\n" +
-            "zF8Fq8IZMJE7OwKDkHksbCnMtVpJEx+G7GFDpNX5LpAS8PvTGRs/1A==\n" +
+            "MIIEpQIBAAKCAQEAtqbq6KAn92LV5s3wDQUmZAiudW/VACEefr+zABAXpJFp+wMF\n" +
+            "gkUK6HJV1vn8worJiKtppVmFOc/ASbLcAo/eT4uIE9xg6PRPvp55+56hl6qzgBXr\n" +
+            "lEZwyRhZcdiC3qQBpxlBn2cLLGWyzrPQnxc3vlMM+N2hgziJunozRBaLhLj6LG/0\n" +
+            "2gxJsYzlFlr0HLwW2X3xxhIJZtt1KUQ1UYybm6h615Zu+s66oDJip0mCUW8iiBsr\n" +
+            "ofvFR6Ot11y60dFsWpPf4X4g8uL+jmubDlY4NEHmOtNoNwLCcMz+jIpdlNz+Ymmd\n" +
+            "tK366AuhAQzTa7+jOISyTqhw/w7ph4TrIJTcqQIDAQABAoIBABprur87q4xVd6uT\n" +
+            "To4TmKIPv2ytaJpEMC0VfcccjM75WeM9ZKabZiCJqXEXaECb4tsqMHYCpQrfymje\n" +
+            "voSAWyAWhvCYiEwqSv6/3dVP9QADaUO16AXiyp3ML+QP9Z5PCw4o0R1FwpABhgPw\n" +
+            "btUUfrPBP7cgGCTrIMEgvBm1SSlBeg50+kAi/tZ02EwAadlpK9wbnfRbEhtlTMiD\n" +
+            "HW05Tq5TykyWSe/A5CvWlXJCzWFRkQqokgnYn+xWSYuM4Vd0LRjmUD5a3063h2qk\n" +
+            "Up+qovtjAf8edVWAxpVRzfLjoFbuTovmw/rLPEvvIu3hjW8Z0YK9/sYHb5sWcHCA\n" +
+            "mkacmiECgYEA4nyB76hvPGDymj8RtE0p86tMPBxIVJMetrwS7oZHN8c29sg4SpGF\n" +
+            "LMURsjC7JTMChlc1yzg5KFSpjy3ubVKA62/IWy5a+Lh2qzZ757dAh+4G0X7gqitF\n" +
+            "0ka833bsR98wBpZ76icVI+dVDTqdQbYyIlgL3J/3s1dtBNWS7pcbuvMCgYEAznQd\n" +
+            "UAT4B6ilILEHasCVPFBXdbfNa6IQxrHk2zM3rKSiG0YCJtcsEUr1cqeWzHshlSnw\n" +
+            "e8i+Pp/aNDcxCHcsFkaEaZHIs748M0/XlB+jVc9AHtSQU6Z4IQoUWpVAPSy/LtNY\n" +
+            "pCwv3zwHnt+XOtiSBgvoe7QjvBMN0KHuPSb9+PMCgYEAwYqsbuR8yhf+uRkURAN8\n" +
+            "yiGj7+orVTqzkGx/sR1GVsAClDjdAbwBFhUB3kgOZOeGTM7RxWuyTGiszRHvIbTT\n" +
+            "Pl4z1Nd0Hf9kSUMx9v1+Q6qAYR4PVtvLurmARWYW3AQ5widulNX5FslkwP1JzRGp\n" +
+            "Hfgnis2YmsUnAG6SNRkkNUkCgYEAl6S+aypbLPT45Xxi4Ey40WaJ91OctXSDMg80\n" +
+            "9LU4Lb13vOS9a94c5k7S3vauU2AWGMSHecTHyKQN2NC5WWh/n5UIaarFaxFOkroQ\n" +
+            "tSJQDRWAGaU0pdze3BXVQXvjhYu6miBvOZejSiuDxXSiVn0BNSPGDicRIHI2cYqf\n" +
+            "vZdIcXUCgYEAv5y++kzj0p4zFNUTuPdv1H0HftThd2vAc4I40CJFh99tQzF9Zo+n\n" +
+            "dUOwcla6G7jL64e5Wo2XMGyTgh496VsYcB+tc6P8LciM0qjpQgjkoWSULzDlkvSI\n" +
+            "B12xir20Ely9x7/f4QEk8DPoAwzSVxqslQwk4lScEN+z7Ag/pGasUhw=\n" +
             "-----END RSA PRIVATE KEY-----";
 
     protected static String publicKey ="-----BEGIN CERTIFICATE-----\n" +
-            "MIIDmDCCAoACCQCT1E6ysTlQKDANBgkqhkiG9w0BAQUFADCBjTELMAkGA1UEBhMC\n" +
+            "MIIDmDCCAoACCQDmJcXiSznEbDANBgkqhkiG9w0BAQUFADCBjTELMAkGA1UEBhMC\n" +
             "RUUxETAPBgNVBAgMCEhhcmp1bWFhMRAwDgYDVQQHDAdUYWxsaW5uMRIwEAYDVQQK\n" +
             "DAlCaXRXZWIgT1UxETAPBgNVBAsMCGJhbmtsaW5rMRIwEAYDVQQDDAlsb2NhbGhv\n" +
             "c3QxHjAcBgkqhkiG9w0BCQEWD3RvYnJlQGJpdHdlYi5lZTAeFw0xNzAzMjAxMTQw\n" +
-            "MzFaFw0zNzAzMTUxMTQwMzFaMIGNMQswCQYDVQQGEwJFRTERMA8GA1UECAwISGFy\n" +
+            "NTRaFw0zNzAzMTUxMTQwNTRaMIGNMQswCQYDVQQGEwJFRTERMA8GA1UECAwISGFy\n" +
             "anVtYWExEDAOBgNVBAcMB1RhbGxpbm4xEjAQBgNVBAoMCUJpdFdlYiBPVTERMA8G\n" +
             "A1UECwwIYmFua2xpbmsxEjAQBgNVBAMMCWxvY2FsaG9zdDEeMBwGCSqGSIb3DQEJ\n" +
             "ARYPdG9icmVAYml0d2ViLmVlMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC\n" +
-            "AQEApAlCJVgJ8TaoimxVW+EHlIj9YnvG7S2E6n63BWKyEu7E3ff2q1UmUesTRoSU\n" +
-            "GJzIIIhf7AL188UKbkN3EQAzeitQF3QX6EE+QGSXFQ9xbVsDqgSSI9+FIJApttav\n" +
-            "/WQWzO+I3dCByTURQRWLJB4J0dMUutaLO/K6KncIV2Lkbi7g8XZYm0BJPeW0ODez\n" +
-            "ji5X2UxTS8RtJqXN8EQjs5Uj/3u75DBfYuJSERX9p+ge1Mj6QlWutqKEhRU30/Pj\n" +
-            "fQapmv1xTFIPkgVjw9Ah2BehqVa1BhU3CsrS9/QpSsqZbODwXOKgsRY5GjKqoABQ\n" +
-            "kQQA7pdewSDPv6zNlxDYK59ZrQIDAQABMA0GCSqGSIb3DQEBBQUAA4IBAQA78DrC\n" +
-            "Yf9ieyZ3HWd93U5vgfb47Ppa0e/WAOytWvqFIw1XQDCBWjs/eBOInG/PmDuAaFw/\n" +
-            "EJFYDRekpy9EWQbPe0hPomPy/IyvMiUDHgNEhbSVpwaURVsW3QtiuQg5nOE7VLhp\n" +
-            "dWYDAoHGrA61auKBlGvVGmUY5PKr7PbL+a3Cidi/f04CiwZNoVlj4DpUfH0XZ6On\n" +
-            "g6qaTCSc8TKo9u5zmdh2vkYNB3tzflZoPU7DCPiqKrDuqMXF2vmNlmBV8n+EJ5fj\n" +
-            "VI/503GQBwRChFw6AH9R9pbj+m17s76QmuLczF6sZW6yP60c310gyrWCbMhjZUO7\n" +
-            "0cemX/g0MnKyBxJm\n" +
+            "AQEA78AhyzVHLOQsPO/2jxA36dAT/X6OVes8b9p8vlG9ybuDPbci6NmuKhBTaZkc\n" +
+            "xAoqL5qY7UfZDeQvL+cKmLpxGEtGvz515JozPkHfvY9+xqTRdYu5t6rEvp2a6oA4\n" +
+            "Q1SxHvFgX9SaoJiF+EVWc+TLJOtSiKifJ/cHM9aoDTB9Dilm3C5c/yx2CJ5SPFY/\n" +
+            "cVWbnwfXq00D3mYbP2KHXJrEW+JoFG2EwsSbemOeTrJCtp31g4PiE82r9y05ywcQ\n" +
+            "r79uXlO+uWgOQp3P/Ms9wQ95ALwPOyMlLExm7D9GI5rodTLq/0ctbzOPKPsGR6nw\n" +
+            "Lk0GTPhsjR9j8agSL0awfk3MoQIDAQABMA0GCSqGSIb3DQEBBQUAA4IBAQDIB2YC\n" +
+            "dL+lXko8GixQ863pesUDnDX1BwXXOpiA88B8DD1kUbuEafpBa9TxtZvFUyDVw2E9\n" +
+            "yYG/C7GsiMnWmUhfxBg6uXl3BGUTCZvOVvjZQM0JCjtS6TfmZfSmCQOnpcoGr6tr\n" +
+            "HG/pI2MzZgasuMX9Bgp9mZhoaC5NR1XC3CVbmYnP8UyuRHqoeu5w9S1hBVCsWxZA\n" +
+            "LL2W+ZDuerwH7VFPcUh6COsiHWY2ov8BpHYndqfFBKf6FiRqvF3Tseomtnvoj8V6\n" +
+            "aT+8otiVU4qz1sfLglr95L/JDahFBpMcL/Errt7gnh2a3vDPQm1hBs9IKwSpnf+s\n" +
+            "sQ3iituJ6Q0L045j\n" +
             "-----END CERTIFICATE-----";
 
     public static void main(String args[]) {
@@ -74,7 +76,7 @@ public class Main {
             publicKey,
             privateKey,
             new Vendor(
-                    "uid39",
+                    "uid42",
                     "Test Test",
                     "EE411010002050618003"),
                     "http://requestb.in/18d2oau1",
@@ -82,8 +84,8 @@ public class Main {
             );
 
         protocol.setTestMode(true);
-        Banklink seb = new Seb(protocol);
-        /*PaymentRequest paymentRequest = seb.prepareRequest(new PaymentRequestParams("2", 0.01, "BitWeb test", "123"));
+        Banklink seb = new Lhv(protocol);
+        PaymentRequest paymentRequest = seb.prepareRequest(new PaymentRequestParams("2", 0.01, "BitWeb test", "123"));
 
         String html = paymentRequest.createRequestHtml();
 
@@ -92,26 +94,26 @@ public class Main {
 
         PaymentResponse response = (PaymentResponse) seb.handleResponse(new HashMap<String, String>() {{
             put("VK_STAMP", "2");
-            put("VK_AUTO", "N");
-            put("VK_T_NO", "3");
+            put("VK_AUTO", "Y");
+            put("VK_T_NO", "1");
             put("VK_VERSION", "008");
-            put("VK_SND_ID", "EYP");
+            put("VK_SND_ID", "HP");
             put("VK_AMOUNT", "0.01");
-            put("VK_T_DATETIME", "2017-03-20T14:53:45+0000");
+            put("VK_T_DATETIME", "2017-03-20T15:41:54+0000");
             put("VK_CURR", "EUR");
-            put("VK_SND_ACC", "EE171010123456789017");
+            put("VK_SND_ACC", "EE152200221234567897");
             put("VK_SERVICE", "1111");
             put("VK_REC_ACC", "");
             put("VK_MSG", "BitWeb test");
-            put("VK_SND_NAME", "Test Test");
-            put("VK_REC_ID", "uid39");
+            put("VK_SND_NAME", "Tõõger Leõpäöld");
+            put("VK_REC_ID", "uid55");
             put("VK_REF", "123");
-            put("VK_MAC", "aM/wkNCNTxTO2l2PDIM1HZTqmGwTt7IioHitsCWxHuKK6lcikAs58P78nypSv+SkOh02BTtKvVXFIDEwCnLJGLjczKQ+FINlKf0AZVbj+TDVUM8jc6X9lrpPyH/C6/q2khPtuizcZUfmLu1HH8utLarnfAJqq5WQc/8ncdjS3tJUvEcGczriz8lVUELViqVP1yJTly/XpT7xarroMzMssb3jPv6V5MQ9Xu2geF6pk2RL2g0abJOAvVp7b5DvmredELQQczZ1jh/BWkwrlobZFrprwmdmsgXT6efOSKb8CKORP8tvq6t7hyItBfmuhWJ4gnKLgk6HwzB6nRmVrb/0lw==");
+            put("VK_MAC", "EUVjgdwDCO4+qeDVseYKCKRH9YOfUocElstdcai8ifWX3eOCtr98ipheHmjH1lT4ci/DJ9m1Kil72ef6SikrVj5TthL4qRNKLm1qmwAkgvCIaOBgkhs1mZKHa1XeTmV+2OBnXfcSBOpaXnDGwyLZGNa/wTdmaLeerHpyknYu0xCwyJaaES+upuMaqITROU1UHHohS94qsXQbo7ik5fdcYKHNIsjn0MrwOKsUFbm9u1bfaVkUA09o2iZBobUaLocoUxeMH/F1qRmdJEDDpLzD8i0WBgzgaZnT+UStAcGCl7STkjIv1cD1+sQVa5eRmL0IAV92EeGbcOt+E7TAXAKFNQ==");
             put("VK_REC_NAME", "");
             put("VK_LANG", "EST");
             put("VK_ENCODING", "UTF-8");
         }});
-        System.out.println(response.getTransactionTimestamp());*/
+        System.out.println(response.getTransactionTimestamp());
 
         AuthenticationRequest authenticationRequest = seb.prepareRequest(new AuthenticationRequestParams());
 
@@ -120,30 +122,18 @@ public class Main {
         System.out.println(html2);
 
 
-        //004 3013
-        //003 008
-        //024 2017-03-20T15:29:22+0000
-        //003 EYP
-        //005 uid39
-        //036 651e3650-306d-4912-a668-00974de2d6ba
-        //015 Tõõger Leõpäöld
-        //024 2017-03-20T15:29:22+0000
-        //002 EE
-        //000
-        //001 5
-        //000
         AuthenticationResponse authenticationResponse = (AuthenticationResponse) seb.handleResponse(new HashMap<String, String>() {{
             put("VK_USER_NAME", "Tõõger Leõpäöld");
-            put("VK_REC_ID", "uid39");
+            put("VK_REC_ID", "uid55");
             put("VK_OTHER", "");
             put("VK_SERVICE", "3013");
-            put("VK_SND_ID", "EYP");
-            put("VK_DATETIME", "2017-03-20T15:29:22+0000");
+            put("VK_SND_ID", "HP");
+            put("VK_DATETIME", "2017-03-20T15:43:49+0000");
             put("VK_VERSION", "008");
-            put("VK_MAC", "kiQJ/VW6koESn2kM+yrAUHHLVRDDoFRfbnsrEi6owv9qWNzmEucNYQQArc0of0nSLAlXHO79UYXVDpe+R5g0evZKSaml0LtFbwKMqxRz42Yggy3YDTJ7CkhaRt1uhGUy5m+j5GP1APtT4C6kMOF6VyAirnbEprfuKyH9qTqjQAAXLdQB3ILkRYQhuKCqzG1Sq3KjoGvmy5vvNMiXmx8W6tPOr0EpbbjTK0WWlvLGlx5kXilSfeBSpTo0fDOblBEC+Kpq+1wooanC5Dy8bsAe+2Vhi69LAAaqxKvm+NcDMJAxz+gqE1nvblZi7RVKlxHO0xOxyT1ckX7r3TxkBuJY7w==");
+            put("VK_MAC", "eyH2NaD6ylNxqmA6Kfy3uutZXH6AnqAVP4JqTxichV8H/WrlKK/QuFpekbjbbigVfzVPjjovzM9OuEDCid/5kEovBeDXJAqLD0uQ6k8aSRAshMGJvVBis6Iy6FPSye7m/5BJjkDw0aXAv6m34wug7BOQ96YxMuh7zypDBMQSjtszv37DrIbQSwV0gOFmyC9s65VGeDqGCjih1dSl4GAnjoX5Ewb48c7/cAdysZKPDNXm32w8Mdm1lrd/I3SnesnVsP7D4z9rKsrfXGX4tMfBJmf5SEGiRWGWNboeHafjd7vHh7AAEWKBMhvheaXuDSbAsq1uTKBnCJ7JOnoqL1drTg==");
             put("VK_COUNTRY", "EE");
             put("VK_TOKEN", "5");
-            put("VK_NONCE", "651e3650-306d-4912-a668-00974de2d6ba");
+            put("VK_NONCE", "47dcfc47-08f2-4e97-ae50-4be343425203");
             put("VK_RID", "");
             put("VK_USER_ID", "37602294565");
         }});
