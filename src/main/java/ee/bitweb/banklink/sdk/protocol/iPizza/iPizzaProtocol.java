@@ -92,7 +92,6 @@ public class iPizzaProtocol extends Protocol {
         requestData.put(Fields.DATETIME, formatDate(new DateTime()));
         requestData.put(Fields.RID, "");
 
-
         try {
             requestData.put(Fields.MAC, Mac.sign(getMac(requestData), privateKey));
         } catch (GeneralSecurityException | IOException e) {
@@ -128,7 +127,6 @@ public class iPizzaProtocol extends Protocol {
     }
 
     private String padMacParameter(String value) {
-
         String length = String.valueOf(value.length());
         while (length.length() < 3) {
             length = "0" + length;
