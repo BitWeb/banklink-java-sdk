@@ -12,9 +12,6 @@ import ee.bitweb.banklink.sdk.protocol.iPizza.request.AuthenticationRequest;
 import ee.bitweb.banklink.sdk.protocol.iPizza.request.PaymentRequest;
 import ee.bitweb.banklink.sdk.protocol.iPizza.response.AuthenticationResponse;
 import ee.bitweb.banklink.sdk.protocol.iPizza.response.PaymentResponse;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.junit.Before;
 import org.junit.Test;
 
