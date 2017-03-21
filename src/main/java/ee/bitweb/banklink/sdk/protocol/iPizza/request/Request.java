@@ -33,7 +33,7 @@ public class Request {
         return data;
     }
 
-    private String renderHiddenValues() {
+    public String renderHiddenValues() {
         String data = "";
         for (FieldDefinition field : this.requestData.keySet()) {
             data += "<input type=\"hidden\" name=\""+ field.getName() +"\" value=\"" + this.requestData.get(field) + "\"/>\n";
