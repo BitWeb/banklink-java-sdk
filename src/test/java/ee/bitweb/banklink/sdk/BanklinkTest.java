@@ -6,12 +6,15 @@ import ee.bitweb.banklink.sdk.params.AuthenticationRequestParams;
 import ee.bitweb.banklink.sdk.params.PaymentRequestParams;
 import ee.bitweb.banklink.sdk.protocol.Protocol;
 import ee.bitweb.banklink.sdk.protocol.Vendor;
+import ee.bitweb.banklink.sdk.protocol.iPizza.Fields;
 import ee.bitweb.banklink.sdk.protocol.iPizza.iPizzaProtocol;
 import ee.bitweb.banklink.sdk.protocol.iPizza.request.AuthenticationRequest;
 import ee.bitweb.banklink.sdk.protocol.iPizza.request.PaymentRequest;
 import ee.bitweb.banklink.sdk.protocol.iPizza.response.AuthenticationResponse;
 import ee.bitweb.banklink.sdk.protocol.iPizza.response.PaymentResponse;
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -87,6 +90,7 @@ public class BanklinkTest {
                 "success", "" +
                 "cancel");
 
+        protocol.setTestMode(true);
         banklink = new Seb(protocol);
     }
 
@@ -116,6 +120,20 @@ public class BanklinkTest {
                 "Message",
                 "1234"
         ));
+
+        String htmlForm = paymentRequest.createRequestHtml();
+        assertEquals(true, htmlForm.contains("Message"));
+        assertEquals(true, htmlForm.contains("008"));
+        assertEquals(true, htmlForm.contains("UTF-8"));
+        assertEquals(true, htmlForm.contains("1012"));
+        assertEquals(true, htmlForm.contains("success"));
+        assertEquals(true, htmlForm.contains("EST"));
+        assertEquals(true, htmlForm.contains("cancel"));
+        assertEquals(true, htmlForm.contains(paymentRequest.getRequestData().get(Fields.DATETIME)));
+        assertEquals(true, htmlForm.contains(paymentRequest.getRequestData().get(Fields.MAC)));
+        assertEquals(true, htmlForm.contains("sender"));
+        assertEquals(true, htmlForm.contains("1234"));
+
         PaymentResponse response = (PaymentResponse) banklink.handleResponse(new HashMap<String, String>() {{
             put("VK_STAMP", "2");
             put("VK_AUTO", "Y");
@@ -142,12 +160,21 @@ public class BanklinkTest {
         assertEquals("1", response.getTransactionNumber());
         assertEquals(true, response.isAuto());
         //assertEquals("2017-03-21T08:43:07.998+02:00", response.getTransactionTimestamp());
+
+
     }
 
     @Test
     public void makeAuthenticationRequest() throws Exception {
         AuthenticationRequest authenticationRequest = banklink.prepareRequest(new AuthenticationRequestParams());
 
+        String htmlForm = authenticationRequest.createRequestHtml();
+        assertEquals(true, htmlForm.contains(authenticationRequest.getRequestData().get(Fields.NONCE)));
+        assertEquals(true, htmlForm.contains("EYP"));
+        assertEquals(true, htmlForm.contains(authenticationRequest.getRequestData().get(Fields.DATETIME)));
+        assertEquals(true, htmlForm.contains("008"));
+        assertEquals(true, htmlForm.contains("4012"));
+        assertEquals(true, htmlForm.contains(authenticationRequest.getRequestData().get(Fields.MAC)));
 
         AuthenticationResponse authenticationResponse = (AuthenticationResponse) banklink.handleResponse(new HashMap<String, String>() {{
             put("VK_USER_NAME", "Tõõger Leõpäöld");
