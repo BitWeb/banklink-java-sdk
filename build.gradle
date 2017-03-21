@@ -8,7 +8,7 @@ repositories {
     }
 }
 
-group 'ee.biweb'
+group 'ee.bitweb'
 version '1.0.0'
 
 apply plugin: 'java'
