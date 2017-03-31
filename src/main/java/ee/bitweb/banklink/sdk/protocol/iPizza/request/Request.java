@@ -25,12 +25,15 @@ public class Request {
         return requestData;
     }
 
-    public String createRequestHtml() {
-        String data = "<html><body><form id=\"bankForm\" method=\"POST\" action=\""+this.requestUri +"\">\n";
+    public String createRequestForm() {
+        String data = "<form id=\"bankForm\" method=\"POST\" action=\""+this.requestUri +"\">\n";
         data += renderHiddenValues();
         data += "</form>\n";
-        data += "<script type=\"text/javascript\">document.getElementById(\"bankForm\").submit();</script></body></html>\n";
         return data;
+    }
+
+    public String createRequestHtml() {
+        return "<html><body>" + createRequestForm() + "</body></html>\n";
     }
 
     public String renderHiddenValues() {

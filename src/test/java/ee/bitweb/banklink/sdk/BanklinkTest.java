@@ -118,7 +118,7 @@ public class BanklinkTest {
                 "1234"
         ));
 
-        String htmlForm = paymentRequest.createRequestHtml();
+        String htmlForm = paymentRequest.createRequestForm();
         assertEquals(true, htmlForm.contains("Message"));
         assertEquals(true, htmlForm.contains("008"));
         assertEquals(true, htmlForm.contains("UTF-8"));
@@ -165,7 +165,7 @@ public class BanklinkTest {
     public void makeAuthenticationRequest() throws Exception {
         AuthenticationRequest authenticationRequest = banklink.prepareRequest(new AuthenticationRequestParams());
 
-        String htmlForm = authenticationRequest.createRequestHtml();
+        String htmlForm = authenticationRequest.createRequestForm();
         assertEquals(true, htmlForm.contains(authenticationRequest.getRequestData().get(Fields.NONCE)));
         assertEquals(true, htmlForm.contains("EYP"));
         assertEquals(true, htmlForm.contains(authenticationRequest.getRequestData().get(Fields.DATETIME)));
