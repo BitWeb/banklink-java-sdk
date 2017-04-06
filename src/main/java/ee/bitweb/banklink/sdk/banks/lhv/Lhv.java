@@ -17,7 +17,7 @@ public class Lhv extends Banklink {
     public Lhv(Protocol protocol) {
         super(protocol);
         super.requestUri = "https://www.lhv.ee/banklink";
-        super.testRequestUri = "https://pangalink.bitweb.ee/banklink/seb";
+        super.testRequestUri = "https://pangalink.bitweb.ee/banklink/lhv";
         super.fields = new Fields();
     }
 
