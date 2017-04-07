@@ -34,8 +34,7 @@ public class iPizzaProtocol extends Protocol {
     protected String successUri;
     protected String cancelUri;
 
-
-    public iPizzaProtocol(String publicKey, String privateKey, Vendor vendor, String successUri, String cancelUri) {
+    public iPizzaProtocol(String publicKey, String privateKey, Vendor vendor) {
         if (publicKey == null) {
             throw new IllegalArgumentException("Public key not set");
         }
@@ -47,7 +46,10 @@ public class iPizzaProtocol extends Protocol {
         this.publicKey = publicKey;
         this.privateKey = privateKey;
         this.vendor = vendor;
+    }
 
+    public iPizzaProtocol(String publicKey, String privateKey, Vendor vendor, String successUri, String cancelUri) {
+        this(publicKey, privateKey, vendor);
         this.successUri = successUri;
         this.cancelUri = cancelUri;
     }
@@ -90,6 +92,7 @@ public class iPizzaProtocol extends Protocol {
         requestData.put(Fields.NONCE, generateNonce());
         requestData.put(Fields.RETURN_URL, requestParams.getSuccessUri() == null ? successUri : requestParams.getSuccessUri());
         requestData.put(Fields.DATETIME, formatDate(new DateTime()));
+        requestData.put(Fields.ENCODING, requestParams.getEncoding());
         requestData.put(Fields.RID, "");
 
         try {
