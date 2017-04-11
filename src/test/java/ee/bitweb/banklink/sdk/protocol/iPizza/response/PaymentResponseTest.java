@@ -12,6 +12,7 @@ import static org.junit.Assert.*;
 public class PaymentResponseTest {
 
     private final String transactionNumber = "123";
+    private final String bankTransactionNumber = "23";
     private final String senderId = "sender";
     private DateTime transactionTimestamp;
     private PaymentResponse paymentResponse;
@@ -19,12 +20,13 @@ public class PaymentResponseTest {
     @Before
     public void setUp() throws Exception {
         transactionTimestamp = new DateTime();
-        paymentResponse = new PaymentResponse(transactionNumber, senderId, true, transactionTimestamp);
+        paymentResponse = new PaymentResponse(transactionNumber, bankTransactionNumber, senderId, true, transactionTimestamp);
     }
 
     @Test
     public void testGetters() throws Exception {
         assertEquals(transactionNumber, paymentResponse.getTransactionNumber());
+        assertEquals(bankTransactionNumber, paymentResponse.getBankTransactionNumber());
         assertEquals(senderId, paymentResponse.getSenderId());
         assertEquals(true, paymentResponse.isAuto());
         assertEquals(transactionTimestamp, paymentResponse.getTransactionTimestamp());

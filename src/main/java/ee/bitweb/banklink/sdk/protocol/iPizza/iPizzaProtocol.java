@@ -172,6 +172,7 @@ public class iPizzaProtocol extends Protocol {
         DateTime transactionTimestamp = df.parseDateTime(responseParams.get(Fields.T_DATETIME));
 
         return new PaymentResponse(
+                responseParams.get(Fields.STAMP),
                 responseParams.get(Fields.T_NO),
                 responseParams.get(Fields.SND_ID),
                 isAuto,

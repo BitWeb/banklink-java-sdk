@@ -154,7 +154,8 @@ public class BanklinkTest {
         }});
 
         assertEquals("HP", response.getSenderId());
-        assertEquals("1", response.getTransactionNumber());
+        assertEquals("2", response.getTransactionNumber());
+        assertEquals("1", response.getBankTransactionNumber());
         assertEquals(true, response.isAuto());
         //assertEquals("2017-03-21T08:43:07.998+02:00", response.getTransactionTimestamp());
 
