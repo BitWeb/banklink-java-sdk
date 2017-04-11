@@ -8,7 +8,6 @@ import org.joda.time.DateTime;
 public class PaymentResponse extends Response {
 
     protected String transactionNumber;
-    protected String senderId;
     protected Boolean isAuto;
     protected DateTime transactionTimestamp;
     protected String bankTransactionNumber;
@@ -28,10 +27,6 @@ public class PaymentResponse extends Response {
 
     public String getBankTransactionNumber() {
         return bankTransactionNumber;
-    }
-
-    public String getSenderId() {
-        return senderId;
     }
 
     public Boolean isAuto() {

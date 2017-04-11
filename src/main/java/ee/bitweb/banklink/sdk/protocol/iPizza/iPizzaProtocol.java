@@ -8,6 +8,7 @@ import ee.bitweb.banklink.sdk.protocol.FieldDefinition;
 import ee.bitweb.banklink.sdk.protocol.Protocol;
 import ee.bitweb.banklink.sdk.protocol.Vendor;
 import ee.bitweb.banklink.sdk.protocol.iPizza.response.AuthenticationResponse;
+import ee.bitweb.banklink.sdk.protocol.iPizza.response.PaymentErrorResponse;
 import ee.bitweb.banklink.sdk.protocol.iPizza.response.PaymentResponse;
 import ee.bitweb.banklink.sdk.protocol.iPizza.response.Response;
 import org.joda.time.DateTime;
@@ -154,20 +155,14 @@ public class iPizzaProtocol extends Protocol {
         }
 
         Services service = getService(responseParams);
-        if (service == Services.PAYMENT_SUCCESS || service == Services.PAYMENT_ERROR) {
-            return handlePaymentResponse(responseParams);
-        } else if (service == Services.AUTHENTICATE_SUCCESS) {
-            return handleAuthenticationResponse(responseParams);
-        }
+        if (service == Services.PAYMENT_SUCCESS) return handlePaymentResponse(responseParams);
+        if (service == Services.PAYMENT_ERROR) return handlePaymentErrorResponse(responseParams);
+        if (service == Services.AUTHENTICATE_SUCCESS) return handleAuthenticationResponse(responseParams);
 
         throw new BanklinkException("Method response not supported");
     }
 
     protected PaymentResponse handlePaymentResponse(Map<FieldDefinition, String> responseParams) {
-        Boolean isAuto = false;
-        if (responseParams.get(Fields.AUTO).equals("Y")) {
-            isAuto = true;
-        }
         DateTimeFormatter df = DateTimeFormat.forPattern(DATE_FORMAT);
         DateTime transactionTimestamp = df.parseDateTime(responseParams.get(Fields.T_DATETIME));
 
@@ -175,8 +170,21 @@ public class iPizzaProtocol extends Protocol {
                 responseParams.get(Fields.STAMP),
                 responseParams.get(Fields.T_NO),
                 responseParams.get(Fields.SND_ID),
-                isAuto,
+                isAuto(responseParams),
                 transactionTimestamp
+        );
+    }
+
+    protected Boolean isAuto (Map<FieldDefinition, String> responseParams) {
+        return responseParams.get(Fields.AUTO).equals("Y");
+    }
+
+    protected PaymentErrorResponse handlePaymentErrorResponse(Map<FieldDefinition, String> responseParams) {
+
+        return new PaymentErrorResponse(
+                responseParams.get(Fields.STAMP),
+                responseParams.get(Fields.SND_ID),
+                isAuto(responseParams)
         );
     }
 
