@@ -84,8 +84,6 @@ public enum Services {
                 fields.add(Fields.STAMP);
                 fields.add(Fields.REF);
                 fields.add(Fields.MSG);
-                fields.add(Fields.LANG);
-                fields.add(Fields.AUTO);
 
                 return fields;
             case AUTHENTICATE_SUCCESS:
