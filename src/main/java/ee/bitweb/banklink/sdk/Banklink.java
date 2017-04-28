@@ -9,6 +9,8 @@ import ee.bitweb.banklink.sdk.protocol.iPizza.Fields;
 import ee.bitweb.banklink.sdk.protocol.iPizza.request.AuthenticationRequest;
 import ee.bitweb.banklink.sdk.protocol.iPizza.request.PaymentRequest;
 import ee.bitweb.banklink.sdk.protocol.iPizza.response.Response;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -31,6 +33,8 @@ public abstract class Banklink {
     protected String currency = "EUR";
 
     protected Fields fields;
+
+    private Log log = LogFactory.getLog(Banklink.class);
 
     public Banklink(Protocol protocol) {
         this.protocol = protocol;
@@ -84,6 +88,9 @@ public abstract class Banklink {
                 Field f = fields.getClass().getField(translatedParam);
                 FieldDefinition fieldDefinition = (FieldDefinition) f.get(null);
                 translatedResponse.put(fieldDefinition, responseParam.getValue());
+            } catch (NoSuchFieldException e) {
+                //ignore, because invalid field, that can be ignored
+                log.warn("Bank has sent field " + responseParam.getKey() + " that does not exist in spec. Ignoring.");
             } catch (Exception e) {
                 throw new BanklinkException("Response mapping failed", e);
             }
