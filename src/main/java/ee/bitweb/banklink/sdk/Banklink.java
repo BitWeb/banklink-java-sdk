@@ -53,6 +53,10 @@ public abstract class Banklink {
         this.currency = currency;
     }
 
+    public String getPaymentRequestURI() {
+        return !protocol.isTestMode() ? requestUri : testRequestUri;
+    }
+
     public PaymentRequest prepareRequest(PaymentRequestParams paymentRequestParams) {
         paymentRequestParams.setIfNotDefinedLanguage(language);
         paymentRequestParams.setIfNotDefinedEncoding(encoding);
@@ -62,10 +66,10 @@ public abstract class Banklink {
 
         prepareSpecialFields(requestData);
 
-        return new PaymentRequest(isTestMode(), requestData);
+        return new PaymentRequest(getPaymentRequestURI(), requestData);
     }
 
-    private String isTestMode() {
+    public String getAuthencationRequestURI() {
         return !protocol.isTestMode() ? requestUri : testRequestUri;
     }
 
@@ -75,7 +79,7 @@ public abstract class Banklink {
 
         Map<FieldDefinition, String> requestData = protocol.prepareAuthenticationRequest(requestParams, getBankId());
 
-        return new AuthenticationRequest(isTestMode(), requestData);
+        return new AuthenticationRequest(getAuthencationRequestURI(), requestData);
     }
 
     protected abstract String getBankId();

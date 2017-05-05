@@ -13,7 +13,7 @@ public class Nordea extends Banklink {
 
     private static final String BANKID = "NORDEA";
 
-    protected String testAuthenticationRequestUri = "https://netbank.nordea.com/pnbepaytest/epayp.jsp";
+    protected String testAuthenticationRequestUri = "https://netbank.nordea.com/pnbeidtest/eidp.jsp";
 
     public Nordea(Protocol protocol) {
         super(protocol);
@@ -40,5 +40,9 @@ public class Nordea extends Banklink {
     @Override
     protected String getBankId() {
         return BANKID;
+    }
+
+    public String getAuthencationRequestURI() {
+        return !protocol.isTestMode() ? requestUri : testAuthenticationRequestUri;
     }
 }
