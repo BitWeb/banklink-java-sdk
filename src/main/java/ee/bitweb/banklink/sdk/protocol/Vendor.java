@@ -9,9 +9,13 @@ public class Vendor {
     protected String name;
     protected String accountNumber;
 
-    public Vendor(String senderId, String name, String accountNumber) {
+    public Vendor(String senderId, String name) {
         this.senderId = senderId;
         this.name = name;
+    }
+
+    public Vendor(String senderId, String name, String accountNumber) {
+        this(senderId, name);
         this.accountNumber = accountNumber;
     }
 
