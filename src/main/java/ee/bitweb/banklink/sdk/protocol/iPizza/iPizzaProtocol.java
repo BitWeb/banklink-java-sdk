@@ -91,10 +91,11 @@ public class iPizzaProtocol extends Protocol {
         requestData.put(Fields.SND_ID, vendor.getSenderId());
         requestData.put(Fields.REC_ID, bankId);
         requestData.put(Fields.NONCE, generateNonce());
-        requestData.put(Fields.RETURN_URL, requestParams.getSuccessUri() == null ? successUri : requestParams.getSuccessUri());
+        requestData.put(Fields.RETURN_URL, requestParams.getReturnUri() == null ? successUri : requestParams.getReturnUri());
         requestData.put(Fields.DATETIME, formatDate(new DateTime()));
         requestData.put(Fields.ENCODING, requestParams.getEncoding());
         requestData.put(Fields.RID, "");
+        requestData.put(Fields.LANG, requestParams.getLanguage());
 
         try {
             requestData.put(Fields.MAC, Mac.sign(getMac(requestData), privateKey));

@@ -14,7 +14,7 @@ public class AuthenticationRequestParamsTest {
     public void canConstruct() throws Exception {
         new AuthenticationRequestParams();
         new AuthenticationRequestParams("EST", "UTF-8");
-        new AuthenticationRequestParams("EST", "UTF-8", "http://localhost/success", "http://localhost/cancel");
+        new AuthenticationRequestParams("EST", "UTF-8", "http://localhost/success");
     }
 
 
@@ -36,16 +36,8 @@ public class AuthenticationRequestParamsTest {
     @Test
     public void setSuccessUri() throws Exception {
         AuthenticationRequestParams params = new AuthenticationRequestParams();
-        params.setSuccessUri("http://localhost/success");
-        assertEquals("http://localhost/success", params.getSuccessUri());
-    }
-
-
-    @Test
-    public void setCancelUri() throws Exception {
-        AuthenticationRequestParams params = new AuthenticationRequestParams();
-        params.setCancelUri("http://localhost/cancel");
-        assertEquals("http://localhost/cancel", params.getCancelUri());
+        params.setReturnUri("http://localhost/success");
+        assertEquals("http://localhost/success", params.getReturnUri());
     }
 
     @Test
