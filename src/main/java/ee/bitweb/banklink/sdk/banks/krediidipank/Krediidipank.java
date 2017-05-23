@@ -14,9 +14,11 @@ public class Krediidipank extends Banklink {
 
     private static final String BANKID = "KREP";
 
+    protected String authenticationRequestUri = "https://i-pank.krediidipank.ee/auth";
+
     public Krediidipank(Protocol protocol) {
         super(protocol);
-        super.requestUri = "https://i-pank.krediidipank.ee/teller/autendi";
+        super.requestUri = "https://i-pank.krediidipank.ee/pay";
         super.testRequestUri = "https://pangalink.bitweb.ee/banklink/krediidipank";
         super.fields = new Fields();
     }
@@ -39,5 +41,9 @@ public class Krediidipank extends Banklink {
     @Override
     protected String getBankId() {
         return BANKID;
+    }
+
+    public String getAuthencationRequestURI() {
+        return !protocol.isTestMode() ? authenticationRequestUri : testRequestUri;
     }
 }
