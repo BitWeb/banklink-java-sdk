@@ -109,7 +109,7 @@ public class iPizzaProtocol extends Protocol {
         requestData.put(Fields.LANG, requestParams.getLanguage());
 
         try {
-            logger.debug("Computing and adding mac signature");
+            logger.debug("Computing and adding MAC signature");
             requestData.put(Fields.MAC, Mac.sign(getMac(requestData), privateKey));
         } catch (Exception e) {
             logger.error("An error happened during MAC signature generation", e);

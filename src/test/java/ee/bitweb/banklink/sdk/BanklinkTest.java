@@ -45,7 +45,7 @@ public class BanklinkTest extends BankLinkTestStub {
         protocol.setTestMode(true);
         banklink = new Seb(protocol);
     }
-/*
+
     @Test
     public void testMakePaymentRequest() throws Exception {
         PaymentRequest paymentRequest = banklink.prepareRequest(new PaymentRequestParams(
@@ -138,6 +138,4 @@ public class BanklinkTest extends BankLinkTestStub {
         assertEquals("37602294565", authenticationResponse.getSocialSecurityNumber());
       //  assertEquals("2017-03-20T15:43:49+0000", authenticationResponse.getTimestamp());
     }
-
-*/
 }
