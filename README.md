@@ -13,14 +13,12 @@ Protocol protocol = new iPizzaProtocol(
         "uid42",
         "Test Test",
         "EE411010002050618003"
-    ),
-    "http://requestb.in/18d2oau1",
-    "http://requestb.in/18d2oau1"
+    )
 );
 
 protocol.setTestMode(true);
 Banklink seb = new Seb(protocol);
-PaymentRequest paymentRequest = seb.prepareRequest(new PaymentRequestParams("2", 0.01, "BitWeb test", "123"));
+PaymentRequest paymentRequest = seb.prepareRequest(new PaymentRequestParams("2", 0.01, "BitWeb test", "123", "http://requestb.in/18d2oau1", "http://requestb.in/18d2oau1"));
 ```
 ... and response handling
 
