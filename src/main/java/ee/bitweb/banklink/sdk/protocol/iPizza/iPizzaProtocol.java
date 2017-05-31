@@ -1,5 +1,6 @@
 package ee.bitweb.banklink.sdk.protocol.iPizza;
 
+import ee.bitweb.banklink.sdk.LoggingHelper;
 import ee.bitweb.banklink.sdk.exception.BanklinkException;
 import ee.bitweb.banklink.sdk.exception.IllegalArgumentException;
 import ee.bitweb.banklink.sdk.params.AuthenticationRequestParams;
@@ -11,6 +12,8 @@ import ee.bitweb.banklink.sdk.protocol.iPizza.response.AuthenticationResponse;
 import ee.bitweb.banklink.sdk.protocol.iPizza.response.PaymentErrorResponse;
 import ee.bitweb.banklink.sdk.protocol.iPizza.response.PaymentResponse;
 import ee.bitweb.banklink.sdk.protocol.iPizza.response.Response;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -18,6 +21,10 @@ import org.joda.time.format.DateTimeFormatter;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
 import java.util.*;
 
 /**
@@ -27,15 +34,14 @@ public class iPizzaProtocol extends Protocol {
 
     private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
 
-    protected String publicKey;
-    protected String privateKey;
+    protected final Log logger = LogFactory.getLog(Mac.class);
+    protected PrivateKey privateKey;
+    protected PublicKey publicKey;
 
     protected Vendor vendor;
 
-    protected String successUri;
-    protected String cancelUri;
+    public iPizzaProtocol(PublicKey publicKey, PrivateKey privateKey, Vendor vendor) {
 
-    public iPizzaProtocol(String publicKey, String privateKey, Vendor vendor) {
         if (publicKey == null) {
             throw new IllegalArgumentException("Public key not set");
         }
@@ -43,21 +49,20 @@ public class iPizzaProtocol extends Protocol {
         if (privateKey == null) {
             throw new IllegalArgumentException("Private key not set");
         }
-
         this.publicKey = publicKey;
         this.privateKey = privateKey;
         this.vendor = vendor;
     }
 
-    public iPizzaProtocol(String publicKey, String privateKey, Vendor vendor, String successUri, String cancelUri) {
-        this(publicKey, privateKey, vendor);
-        this.successUri = successUri;
-        this.cancelUri = cancelUri;
+    public iPizzaProtocol(String publicKeyCertString, String privateKeyStr, Vendor vendor) throws IOException, GeneralSecurityException {
+        this(Mac.getPublicKeyFromCertificateString(publicKeyCertString), Mac.getPrivateKey(privateKeyStr), vendor);
     }
 
     @Override
     public Map<FieldDefinition, String> preparePaymentRequest(PaymentRequestParams paymentRequestParams) {
+        logger.info("Preparing payment request: " + LoggingHelper.parseObject(paymentRequestParams));
         Map<FieldDefinition, String> requestData = new HashMap<>();
+        logger.debug("Putting together request data");
 
         requestData.put(Fields.SERVICE, Services.PAYMENT_REQUEST.code);
         requestData.put(Fields.VERSION, version);
@@ -67,56 +72,71 @@ public class iPizzaProtocol extends Protocol {
         requestData.put(Fields.CURR, paymentRequestParams.getCurrency());
         requestData.put(Fields.REF, paymentRequestParams.getReferenceNumber());
         requestData.put(Fields.MSG, paymentRequestParams.getMessage());
-        requestData.put(Fields.RETURN_URL, paymentRequestParams.getSuccessUri() == null ? successUri : paymentRequestParams.getSuccessUri());
-        requestData.put(Fields.CANCEL_URL, paymentRequestParams.getCancelUri() == null ? cancelUri : paymentRequestParams.getCancelUri());
+        requestData.put(Fields.RETURN_URL, paymentRequestParams.getSuccessUri());
+        requestData.put(Fields.CANCEL_URL, paymentRequestParams.getCancelUri());
         requestData.put(Fields.DATETIME, formatDate(new DateTime()));
         requestData.put(Fields.ENCODING, paymentRequestParams.getEncoding());
         requestData.put(Fields.LANG, paymentRequestParams.getLanguage());
 
         try {
+            logger.debug("Computing and adding mac signature");
             requestData.put(Fields.MAC, Mac.sign(getMac(requestData), privateKey));
-        } catch (GeneralSecurityException | IOException e) {
+        } catch (Exception e) {
+            logger.error("An error happened during MAC signature generation", e);
             throw new BanklinkException("MAC signing failed, private key error", e);
         }
+
+        logger.debug("Compiled request data: " + LoggingHelper.parseObject(requestData));
 
         return requestData;
 
     }
 
     public Map<FieldDefinition, String> prepareAuthenticationRequest(AuthenticationRequestParams requestParams, String bankId) {
+        logger.info("Preparing authentication request for bank " + bankId + " : " + LoggingHelper.parseObject(requestParams));
         Map<FieldDefinition, String> requestData = new HashMap<>();
+        logger.debug("Putting together request data");
 
         requestData.put(Fields.SERVICE, Services.AUTHENTICATE_REQUEST.code);
         requestData.put(Fields.VERSION, version);
         requestData.put(Fields.SND_ID, vendor.getSenderId());
         requestData.put(Fields.REC_ID, bankId);
         requestData.put(Fields.NONCE, generateNonce());
-        requestData.put(Fields.RETURN_URL, requestParams.getReturnUri() == null ? successUri : requestParams.getReturnUri());
+        requestData.put(Fields.RETURN_URL, requestParams.getReturnUri());
         requestData.put(Fields.DATETIME, formatDate(new DateTime()));
         requestData.put(Fields.ENCODING, requestParams.getEncoding());
         requestData.put(Fields.RID, "");
         requestData.put(Fields.LANG, requestParams.getLanguage());
 
         try {
+            logger.debug("Computing and adding mac signature");
             requestData.put(Fields.MAC, Mac.sign(getMac(requestData), privateKey));
-        } catch (GeneralSecurityException | IOException e) {
+        } catch (Exception e) {
+            logger.error("An error happened during MAC signature generation", e);
             throw new BanklinkException("MAC signing failed, private key error", e);
         }
+
+        logger.debug("Compiled request data: " + LoggingHelper.parseObject(requestData));
 
         return requestData;
     }
 
     private String generateNonce() {
+        logger.info("Generating nonce");
+
         return UUID.randomUUID().toString();
     }
 
     protected String getMac(Map<FieldDefinition, String> requestData) {
+        logger.info("Generating MAC value");
         Services service = getService(requestData);
-
+        logger.debug("Got a service: " + service.code);
         String data = "";
         for (FieldDefinition field : Services.getFields(service)) {
             data += padMacParameter(requestData.get(field));
         }
+
+        logger.debug("Generated MAC value: " + data);
 
         return data;
     }
@@ -137,43 +157,70 @@ public class iPizzaProtocol extends Protocol {
             length = "0" + length;
         }
 
+        logger.debug("Padded value " + value + " to " + length + value);
+
         return length + value;
     }
 
     @Override
     public Response handleResponse(Map<FieldDefinition, String> responseParams) {
+        logger.info("Handling response");
+
         String mac = getMac(responseParams);
+        logger.debug("Compiled a MAC value: " + mac);
 
         Boolean isMacVerified = false;
+        logger.debug("Starting to verify MAC signature: " + responseParams.get(Fields.MAC));
         try {
             isMacVerified = Mac.verify(mac, responseParams.get(Fields.MAC), publicKey);
         } catch (GeneralSecurityException | IOException e) {
+            logger.error("An error occured while MAC verification", e);
             throw new BanklinkException("MAC verification failed, certification error", e);
         }
 
         if (!isMacVerified) {
-            throw new BanklinkException("MAC parameter not verified. Bank has sent wrong parameters.");
+            logger.warn("MAC signature was not verified");
+            throw new BanklinkException("MAC signature not verified. Data might have been tampered with.");
         }
 
         Services service = getService(responseParams);
+
+        if (service == null) {
+
+            logger.warn ("Service not recognized " + responseParams.get(Fields.SERVICE));
+            throw new BanklinkException("Service not recognized " + responseParams.get(Fields.SERVICE));
+        }
+
+        logger.debug("Recognized service: " + service.code);
+
         if (service == Services.PAYMENT_SUCCESS) return handlePaymentResponse(responseParams);
         if (service == Services.PAYMENT_ERROR) return handlePaymentErrorResponse(responseParams);
         if (service == Services.AUTHENTICATE_SUCCESS) return handleAuthenticationResponse(responseParams);
 
-        throw new BanklinkException("Method response not supported");
+        logger.warn("Service " + service.code + " not supported");
+
+        throw new BanklinkException("Service " + service.code + " not supported");
     }
 
     protected PaymentResponse handlePaymentResponse(Map<FieldDefinition, String> responseParams) {
+
+        logger.info("Handling payment response");
+        logger.debug("Parsing date from params to date object");
+
         DateTimeFormatter df = DateTimeFormat.forPattern(DATE_FORMAT);
         DateTime transactionTimestamp = df.parseDateTime(responseParams.get(Fields.T_DATETIME));
 
-        return new PaymentResponse(
-                responseParams.get(Fields.STAMP),
-                responseParams.get(Fields.T_NO),
-                responseParams.get(Fields.SND_ID),
-                isAuto(responseParams),
-                transactionTimestamp
+        PaymentResponse response = new PaymentResponse(
+            responseParams.get(Fields.STAMP),
+            responseParams.get(Fields.T_NO),
+            responseParams.get(Fields.SND_ID),
+            isAuto(responseParams),
+            transactionTimestamp
         );
+
+        logger.debug("Putting together PaymentResponse object : " + LoggingHelper.parseObject(response));
+
+        return response;
     }
 
     protected Boolean isAuto (Map<FieldDefinition, String> responseParams) {
@@ -182,24 +229,38 @@ public class iPizzaProtocol extends Protocol {
 
     protected PaymentErrorResponse handlePaymentErrorResponse(Map<FieldDefinition, String> responseParams) {
 
-        return new PaymentErrorResponse(
-                responseParams.get(Fields.STAMP),
-                responseParams.get(Fields.SND_ID),
-                isAuto(responseParams)
+        logger.info("Handling error response");
+
+        PaymentErrorResponse response = new PaymentErrorResponse(
+            responseParams.get(Fields.STAMP),
+            responseParams.get(Fields.SND_ID),
+            isAuto(responseParams)
         );
+
+        logger.debug("Putting together PaymentErrorResponse object: " + LoggingHelper.parseObject(response));
+
+        return response;
     }
 
     protected AuthenticationResponse handleAuthenticationResponse(Map<FieldDefinition, String> responseParams) {
+
+        logger.info("Handling payment response");
+        logger.debug("Parsing date from params to date object");
+
         DateTimeFormatter df = DateTimeFormat.forPattern(DATE_FORMAT);
         DateTime timestamp = df.parseDateTime(responseParams.get(Fields.DATETIME));
 
-        return new AuthenticationResponse(
-                responseParams.get(Fields.USER_NAME),
-                responseParams.get(Fields.USER_ID),
-                timestamp,
-                responseParams.get(Fields.OTHER),
-                responseParams.get(Fields.SND_ID),
-                responseParams.get(Fields.COUNTRY)
+        AuthenticationResponse response = new AuthenticationResponse(
+            responseParams.get(Fields.USER_NAME),
+            responseParams.get(Fields.USER_ID),
+            timestamp,
+            responseParams.get(Fields.OTHER),
+            responseParams.get(Fields.SND_ID),
+            responseParams.get(Fields.COUNTRY)
         );
+
+        logger.debug("Putting together AuthenticationResponse object: " + LoggingHelper.parseObject(response));
+
+        return response;
     }
 }

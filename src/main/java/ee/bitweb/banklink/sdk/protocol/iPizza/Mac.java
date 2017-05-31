@@ -1,10 +1,14 @@
 package ee.bitweb.banklink.sdk.protocol.iPizza;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.bouncycastle.cert.X509CertificateHolder;
+import org.bouncycastle.jcajce.provider.asymmetric.rsa.BCRSAPublicKey;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.openssl.PEMKeyPair;
 import org.bouncycastle.openssl.PEMParser;
+import sun.security.rsa.RSAPublicKeyImpl;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -14,15 +18,22 @@ import java.security.*;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
 import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 
 /**
  * Created by tobre on 20/03/2017.
  */
 public class Mac {
 
-    private static Certificate getPublicKey(String pem) throws IOException, GeneralSecurityException {
+    protected static final Log logger = LogFactory.getLog(Mac.class);
+
+
+    public static PublicKey getPublicKeyFromCertificateString(String pem) throws IOException, GeneralSecurityException {
+
+        logger.info("Creating public key from certificate string");
         PEMParser parser = new PEMParser(new StringReader(pem));
 
         X509CertificateHolder obj = (X509CertificateHolder) parser.readObject();
@@ -30,11 +41,20 @@ public class Mac {
 
         CertificateFactory cf = CertificateFactory.getInstance("X.509");
 
-        return cf.generateCertificate(new ByteArrayInputStream(encodedPublicKey));
+        return cf.generateCertificate(new ByteArrayInputStream(encodedPublicKey)).getPublicKey();
     }
 
+    public static RSAPublicKey getPublicKeyFromKeyString(String publicKeyContent) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        logger.info("Creating public key from key string");
+        publicKeyContent = publicKeyContent.replaceAll("\\n", "").replace("-----BEGIN PUBLIC KEY-----", "").replace("-----END PUBLIC KEY-----", "");
 
-    private static RSAPrivateKey getPrivateKey(String pem) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
+        KeyFactory kf = KeyFactory.getInstance("RSA");
+        X509EncodedKeySpec keySpecX509 = new X509EncodedKeySpec(Base64.decodeBase64(publicKeyContent));
+        return (RSAPublicKey) kf.generatePublic(keySpecX509);
+    }
+
+    public static RSAPrivateKey getPrivateKey(String pem) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
+        logger.info("Creating private key from string");
         PEMParser parser = new PEMParser(new StringReader(pem));
         Object privateKey = parser.readObject();
 
@@ -52,28 +72,31 @@ public class Mac {
         return (RSAPrivateKey) keyFactory.generatePrivate(privateKeySpec);
     }
 
-
-    static String sign(String mac, String privateKey) throws GeneralSecurityException, IOException {
-        RSAPrivateKey privKey = getPrivateKey(privateKey);
+    static String sign(String mac, PrivateKey privateKey) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
+        logger.info("Signing MAC value: " + mac);
         Signature s = Signature.getInstance("SHA1withRSA");
-        s.initSign(privKey);
+        s.initSign(privateKey);
         s.update(ByteBuffer.wrap(mac.getBytes()));
-        byte[] signature = s.sign();
+        byte[] signatureArray = s.sign();
+        String signature = new String(Base64.encodeBase64(signatureArray));
 
-        return new String(Base64.encodeBase64(signature));
+        logger.debug("Generated MAC signature: " + signature);
+
+        return signature;
     }
 
-    static Boolean verify(String mac, String signature, String publicKey) throws GeneralSecurityException, IOException {
-        Certificate key = getPublicKey(publicKey);
-
+    static Boolean verify(String mac, String signature, PublicKey publicKey) throws GeneralSecurityException, IOException {
+        logger.info("Verifying signature :" + signature + " \n for MAC " + mac);
         Security.addProvider(new BouncyCastleProvider());
-
         Signature s = Signature.getInstance("SHA1withRSA", "BC");
-        s.initVerify(key);
-
+        s.initVerify(publicKey);
         s.update(ByteBuffer.wrap(mac.getBytes()));
 
-        return s.verify(Base64.decodeBase64(signature.getBytes()));
+        Boolean verified = s.verify(Base64.decodeBase64(signature.getBytes()));
+
+        logger.debug(verified ? "Signature is verified" : "Signature is not verified");
+
+        return verified;
     }
 
 }

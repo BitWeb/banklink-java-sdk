@@ -23,13 +23,10 @@ public class Nordea extends Banklink {
         super.fields = new NordeaFields();
     }
 
-    public Nordea(Protocol protocol, String successUri, String cancelUri) {
-        super(protocol, successUri, cancelUri);
-        super.fields = new NordeaFields();
-    }
-
-    public Nordea(Protocol protocol, String successUri, String cancelUri, String encoding, String language, String currency) {
-        super(protocol, successUri, cancelUri, encoding, language, currency);
+    public Nordea(Protocol protocol, String encoding, String language, String currency) {
+        super(protocol, encoding, language, currency);
+        super.requestUri = "https://netbank.nordea.com/pnbepay/epayp.jsp";
+        super.testRequestUri = "https://netbank.nordea.com/pnbepaytest/epayp.jsp";
         super.fields = new NordeaFields();
     }
 

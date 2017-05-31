@@ -15,23 +15,21 @@ public class PaymentRequestParams {
     protected String successUri;
     protected String cancelUri;
 
-    public PaymentRequestParams(String transactionId, Double amount, String message, String referenceNumber) {
+    public PaymentRequestParams(String transactionId, Double amount, String message, String referenceNumber, String successUri, String cancelUri) {
         this.transactionId = transactionId;
         this.amount = amount;
         this.message = message;
         this.referenceNumber = referenceNumber;
-    }
-
-    public PaymentRequestParams(String transactionId, Double amount, String message, String referenceNumber, String language, String currency) {
-        this(transactionId, amount, message, referenceNumber);
-        this.language = language;
-        this.currency = currency;
-    }
-
-    public PaymentRequestParams(String transactionId, Double amount, String message, String referenceNumber, String language, String currency, String successUri, String cancelUri) {
-        this(transactionId, amount, message, referenceNumber, language, currency);
         this.successUri = successUri;
         this.cancelUri = cancelUri;
+
+    }
+
+    public PaymentRequestParams(String transactionId, Double amount, String message, String referenceNumber, String successUri, String cancelUri, String currency, String language, String encoding) {
+        this(transactionId, amount, message, referenceNumber, successUri, cancelUri);
+        this.language = language;
+        this.encoding = encoding;
+        this.currency = currency;
     }
 
     public String getTransactionId() {

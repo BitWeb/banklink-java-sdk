@@ -10,24 +10,25 @@ import static org.junit.Assert.*;
  */
 public class AuthenticationRequestParamsTest {
 
+    protected String returlUri = "http://localhost/success";
+
     @Test
     public void canConstruct() throws Exception {
-        new AuthenticationRequestParams();
-        new AuthenticationRequestParams("EST", "UTF-8");
-        new AuthenticationRequestParams("EST", "UTF-8", "http://localhost/success");
+        new AuthenticationRequestParams(returlUri);
+        new AuthenticationRequestParams(returlUri, "EST", "UTF-8");
     }
 
 
     @Test
     public void setLanguage() throws Exception {
-        AuthenticationRequestParams params = new AuthenticationRequestParams();
+        AuthenticationRequestParams params = new AuthenticationRequestParams(returlUri);
         params.setLanguage("EST");
         assertEquals("EST", params.getLanguage());
     }
 
     @Test
     public void setEncoding() throws Exception {
-        AuthenticationRequestParams params = new AuthenticationRequestParams();
+        AuthenticationRequestParams params = new AuthenticationRequestParams(returlUri);
         params.setEncoding("UTF-8");
         assertEquals("UTF-8", params.getEncoding());
     }
@@ -35,14 +36,14 @@ public class AuthenticationRequestParamsTest {
 
     @Test
     public void setSuccessUri() throws Exception {
-        AuthenticationRequestParams params = new AuthenticationRequestParams();
+        AuthenticationRequestParams params = new AuthenticationRequestParams(returlUri);
         params.setReturnUri("http://localhost/success");
         assertEquals("http://localhost/success", params.getReturnUri());
     }
 
     @Test
     public void setIfNotDefinedLanguage() throws Exception {
-        AuthenticationRequestParams params = new AuthenticationRequestParams();
+        AuthenticationRequestParams params = new AuthenticationRequestParams(returlUri);
         params.setLanguage(null);
         params.setIfNotDefinedLanguage("EST");
         assertEquals("EST", params.getLanguage());
@@ -53,7 +54,7 @@ public class AuthenticationRequestParamsTest {
 
     @Test
     public void setIfNotDefinedEncoding() throws Exception {
-        AuthenticationRequestParams params = new AuthenticationRequestParams();
+        AuthenticationRequestParams params = new AuthenticationRequestParams(returlUri);
         params.setEncoding(null);
         params.setIfNotDefinedEncoding("UTF-8");
         assertEquals("UTF-8", params.getEncoding());

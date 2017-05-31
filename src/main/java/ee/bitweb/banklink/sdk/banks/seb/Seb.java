@@ -21,13 +21,10 @@ public class Seb extends Banklink {
         super.fields = new Fields();
     }
 
-    public Seb(Protocol protocol, String successUri, String cancelUri) {
-        super(protocol, successUri, cancelUri);
-        super.fields = new Fields();
-    }
-
-    public Seb(Protocol protocol, String successUri, String cancelUri, String encoding, String language, String currency) {
-        super(protocol, successUri, cancelUri, encoding, language, currency);
+    public Seb(Protocol protocol, String encoding, String language, String currency) {
+        super(protocol, encoding, language, currency);
+        super.requestUri = "https://www.seb.ee/cgi-bin/unet3.sh/un3min.r";
+        super.testRequestUri = "https://pangalink.bitweb.ee/banklink/seb";
         super.fields = new Fields();
     }
 

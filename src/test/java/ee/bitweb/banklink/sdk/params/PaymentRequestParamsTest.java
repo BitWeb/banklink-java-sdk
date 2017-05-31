@@ -11,8 +11,7 @@ public class PaymentRequestParamsTest {
 
     @Test
     public void canConstruct() throws Exception {
-        new PaymentRequestParams("1", 2.2, "message", "123");
-        new PaymentRequestParams("1", 2.2, "message", "123", "EST", "EUR");
-        new PaymentRequestParams("1", 2.2, "message", "123", "EST", "EUR", "http://localhost/success", "http://localhost/cancel");
+        new PaymentRequestParams("1", 2.2, "message", "123", "http://localhost/success", "http://localhost/cancel");
+        new PaymentRequestParams("1", 2.2, "message", "123", "http://localhost/success", "http://localhost/cancel", "EUR", "EST", "ISO");
     }
 }

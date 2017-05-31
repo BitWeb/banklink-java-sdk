@@ -21,13 +21,10 @@ public class Swedbank extends Banklink {
         super.fields = new Fields();
     }
 
-    public Swedbank(Protocol protocol, String successUri, String cancelUri) {
-        super(protocol, successUri, cancelUri);
-        super.fields = new Fields();
-    }
-
-    public Swedbank(Protocol protocol, String successUri, String cancelUri, String encoding, String language, String currency) {
-        super(protocol, successUri, cancelUri, encoding, language, currency);
+    public Swedbank(Protocol protocol, String encoding, String language, String currency) {
+        super(protocol, encoding, language, currency);
+        super.requestUri = "https://www.swedbank.ee/banklink";
+        super.testRequestUri = "https://pangalink.bitweb.ee/banklink/swedbank";
         super.fields = new Fields();
     }
 
