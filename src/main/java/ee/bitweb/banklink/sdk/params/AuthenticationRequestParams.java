@@ -7,18 +7,14 @@ public class AuthenticationRequestParams {
 
     protected String returnUri;
 
-    public AuthenticationRequestParams() {}
+    public AuthenticationRequestParams(String returnUri) { this.returnUri = returnUri;}
 
-    public AuthenticationRequestParams(String language, String encoding) {
-        this();
+
+    public AuthenticationRequestParams(String returnUri, String language, String encoding) {
+        this(returnUri);
+
         this.language = language;
         this.encoding = encoding;
-
-    }
-
-    public AuthenticationRequestParams(String language, String encoding, String returnUri) {
-        this(language, encoding);
-        this.returnUri = returnUri;
     }
 
     public String getLanguage() {
