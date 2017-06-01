@@ -1,6 +1,5 @@
 package ee.bitweb.banklink.sdk;
 
-import com.sun.javafx.binding.Logging;
 import ee.bitweb.banklink.sdk.exception.BanklinkException;
 import ee.bitweb.banklink.sdk.params.AuthenticationRequestParams;
 import ee.bitweb.banklink.sdk.params.PaymentRequestParams;
