@@ -11,6 +11,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.security.*;
 import java.security.cert.CertificateFactory;
 import java.security.interfaces.RSAPrivateKey;
@@ -84,9 +85,9 @@ public class Mac {
     static Boolean verify(String mac, String signature, PublicKey publicKey) throws GeneralSecurityException, IOException {
         logger.info("Verifying signature :" + signature + " \n for MAC " + mac);
         Security.addProvider(new BouncyCastleProvider());
-        Signature s = Signature.getInstance("SHA1withRSA", "BC");
+        Signature s = Signature.getInstance("SHA1withRSA", BouncyCastleProvider.PROVIDER_NAME);
         s.initVerify(publicKey);
-        s.update(ByteBuffer.wrap(mac.getBytes()));
+        s.update(ByteBuffer.wrap(mac.getBytes(Charset.forName("UTF-8"))));
 
         Boolean verified = s.verify(Base64.decodeBase64(signature.getBytes()));
 
