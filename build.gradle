@@ -9,7 +9,7 @@ repositories {
 }
 
 group 'ee.bitweb'
-version '3.0.1'
+version '3.0.2'
 
 apply plugin: 'java'
 apply plugin: 'maven-publish'
