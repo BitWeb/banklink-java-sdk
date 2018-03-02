@@ -14,20 +14,20 @@ public class Krediidipank extends Banklink {
 
     private static final String BANKID = "KREP";
 
-    protected String authenticationRequestUri = "https://secure.cooppank.ee/auth";
+    protected String authenticationRequestUri = "https://i.cooppank.ee/auth";
     protected String testAuthenticationRequestUri = "https://secure.cooppank.ee/auth";
 
 
     public Krediidipank(Protocol protocol) {
         super(protocol);
-        super.requestUri = "https://secure.cooppank.ee/pay";
+        super.requestUri = "https://i.cooppank.ee/pay";
         super.testRequestUri = "https://secure.cooppank.ee/pay";
         super.fields = new Fields();
     }
 
     public Krediidipank(Protocol protocol, String encoding, String language, String currency) {
         super(protocol, encoding, language, currency);
-        super.requestUri = "https://secure.cooppank.ee/pay";
+        super.requestUri = "https://i.cooppank.ee/pay";
         super.testRequestUri = "https://secure.cooppank.ee/pay";
         super.fields = new Fields();
     }
