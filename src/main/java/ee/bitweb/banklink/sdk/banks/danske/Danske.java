@@ -16,14 +16,14 @@ public class Danske extends Banklink {
 
     public Danske(Protocol protocol) {
         super(protocol);
-        super.requestUri = "https://www2.danskebank.ee/ibank/pizza/pizza";
+        super.requestUri = "https://e.danskebank.ee/ib/site/ibpay/login";
         super.testRequestUri = "https://pangalink.bitweb.ee/banklink/sampo";
         super.fields = new Fields();
     }
 
     public Danske(Protocol protocol, String encoding, String language, String currency) {
         super(protocol, encoding, language, currency);
-        super.requestUri = "https://www2.danskebank.ee/ibank/pizza/pizza";
+        super.requestUri = "https://e.danskebank.ee/ib/site/ibpay/login";
         super.testRequestUri = "https://pangalink.bitweb.ee/banklink/sampo";
         super.fields = new Fields();
     }
